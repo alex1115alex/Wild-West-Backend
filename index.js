@@ -11,11 +11,8 @@ const socketio = require('socket.io')(http)
 
 socketio.on("connection", (userSocket) => {
     userSocket.on("send_message", (data) => {
-        console.log(data);
-        Map<String, dynamic> data;
-        data = json.decode(data);
-        console.log(data['message'])
-        fs.appendFile("posts.html", data['message'])
+        console.log(data)
+        fs.appendFile("posts.html", data)
         userSocket.broadcast.emit("receive_message", data)
     })
 })
