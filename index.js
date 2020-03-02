@@ -3,7 +3,7 @@ const http = require('http').createServer(app)
 const fs = require('fs');
 
 app.get('/', (req, res) => {
-    res.send("Node Server is running. Yay!!")
+    res.sendFile(__dirname + '/index.html')
 })
 
 //Socket Logic
@@ -17,4 +17,4 @@ socketio.on("connection", (userSocket) => {
     })
 })
 
-http.listen(process.env.PORT)
+http.listen(80, "0.0.0.0")

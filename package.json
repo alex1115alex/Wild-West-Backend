@@ -1,7 +1,6 @@
 {
-  "name": "real_chat_node",
+  "name": "wild-west-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,5 +15,14 @@
     "nodemon": "^2.0.2",
     "socket.io": "^2.3.0",
     "utf-8-validate": "^5.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex1115alex/wild-west-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alex1115alex/wild-west-backend/issues"
+  },
+  "homepage": "https://github.com/alex1115alex/wild-west-backend#readme",
+  "description": ""
 }
