@@ -12,6 +12,7 @@ const socketio = require('socket.io')(http)
 socketio.on("connection", (userSocket) => {
     userSocket.on("send_message", (data) => {
         console.log(data)
+        fs.writeFile('posts.txt', data)
         fs.appendFile("posts.html", data)
         userSocket.broadcast.emit("receive_message", data)
     })
