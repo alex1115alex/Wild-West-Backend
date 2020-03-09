@@ -3,7 +3,7 @@ const http = require('http').createServer(app)
 const fs = require('fs');
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
+    res.sendFile("/root/Wild-West/placeholderHomepage.html")
 })
 
 //Socket Logic
