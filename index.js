@@ -32,7 +32,7 @@ io.on('connection', function(socket){
     if(messageObject.longitude == 0 && messageObject.latitude == 0) //IF there isn't a location THEN deny their message
     {
       io.emit('server message', "You can't post without a location"); 
-      return false;
+      //return false;
     }
     else if(messageObject.userID == "")
     {
