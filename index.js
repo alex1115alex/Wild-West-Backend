@@ -8,8 +8,8 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", function(socket) {
-    console.log("connection!");
   socket.on("chat message", function(msg) {
+      console.log(msg);
     io.emit("chat message", msg);
   });
 });
