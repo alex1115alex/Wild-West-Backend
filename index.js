@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
 });
 
 //Socket Logic
-const socketio = require("socket.io")(http);
+const io = require("socket.io")(http);
 
 /*
 socketio.on("connection", (userSocket) => {
