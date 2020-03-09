@@ -8,6 +8,7 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
+  io.emit('chat message', "HELLO! THIS IS THE MOTD");
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
