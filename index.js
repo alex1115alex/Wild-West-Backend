@@ -1,13 +1,11 @@
 const app = require("express")();
 const http = require("http").createServer(app);
+var io = require('socket.io')(http);
 const fs = require("fs");
 
 app.get("/", (req, res) => {
   res.sendFile("/root/Wild-West/index.html");
 });
-
-//Socket Logic
-const io = require("socket.io")(http);
 
 /*
 socketio.on("connection", (userSocket) => {
