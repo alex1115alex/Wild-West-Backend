@@ -3,6 +3,7 @@
   <head>
     <title>Wild West (Web)</title>
     <style>
+      /*
       * {
         margin: 0;
         padding: 0;
@@ -30,11 +31,13 @@
         border: none;
         padding: 10px;
       }
+      */
       #messages {
         list-style-type: none;
         margin: 0;
         padding: 0;
       }
+      
       #messages li {
         padding: 5px 10px;
       }
@@ -44,22 +47,51 @@
       #messages {
         margin-bottom: 40px;
       }
+
+      #messagesContainer {
+        margin: 0% 10% 0% 10%;
+        border-top: solid;
+        border-left: solid;
+        border-right: solid;
+        border-color: #000;
+      }
+
+      #input{
+        margin-left: 10%;
+        margin-right: 10%;
+        padding-bottom: 5%;
+      }
+
     </style>
   </head>
   <body>
-    <div style="width: 100%;height:200px">
+    <div class="jumbotron">
       <h1>Wild West Alpha</h1>
     </div>
 
-    <div>
+    <div id="messagesContainer">
       <ul id="messages"></ul>
-      <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-      </form>
+    
+
+    <div class="row" id="input">
+      <div class="col-10">
+        <form action="">
+          <input type="text" class="form-control form-control-lg" id="m" autocomplete="off" />
+        </form>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary">Send</button>
+      </div>
     </div>
+  </div>
+
     <script src="geoFinder.js"></script>
     <script src="cookies.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
     <script>
@@ -69,10 +101,10 @@
       //check if cookie exists
       if (getCookie("userID") == "" || getCookie("userID") == null) {
         //IF the user has no cookie
-        var newCookie = Math.random()
+        var newCookie = Math.random() //generate cookie. This produces a random string
           .toString(36)
-          .slice(2); //generate cookie
-        setCookie("userID", newCookie, 999); //save cookie
+          .slice(2); 
+        setCookie("userID", newCookie, 999); //save the "cookie" (ie the randomy generated string) to the user's cookies as "userID"
       }
       var cookie = getCookie("userID"); //set cookie variable
 
@@ -96,7 +128,7 @@
           var messageToUpload = JSON.stringify(messageObj);
 
           //emit "chat message" with the data messageToUpload
-          socket.emit("chat message", messageToUpload);
+          socket.emit("client send message", messageToUpload);
 
           //reset the textbox and end the function
           $("#m").val("");
@@ -104,7 +136,7 @@
         });
 
         //when a "chat message" is received, append the chat to the messages list
-        socket.on("chat message", function(msg) {
+        socket.on("client receive message", function(msg) {
           var newMessageObject = JSON.parse(msg);
 
           //create div and li
@@ -115,7 +147,8 @@
               newMessageObject.message +
               "</li>"
           );
-          
+
+          //append the message to #messages
           $("#messages").append(liNode);
           window.scrollTo(0, document.body.scrollHeight);
         });

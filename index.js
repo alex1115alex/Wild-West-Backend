@@ -7,24 +7,28 @@ var port = process.env.PORT || 8080;
 
 var startupMessage = "Wild West sever has started...";
 
-var userArr = [];
-var messageArr = [];
+var clients = []; //List of socket connections. Used to update new users on recent chats
+var messageArr = []; //List of messags objects
 
-//app.get('/', function(req, res){
-//  res.sendFile(__dirname + '/index.html');
-//});
-
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + "/public"));
 
 io.on('connection', function(socket){
+
+  //push the socket's ID to the clients array
+  clients.push(socket.id);
 
   //on connect, send all the messages in memory to the client
   for(var i = 0; i < messageArr.length; i++)
   {
-    io.emit('chat message', messageArr[i].message);
+    //STRIP MESSAGES OF LOCATION/USERID
+    var messageObject = messageArr[i];
+    messageObject.userID = null;
+    messageObject.longitude = null;
+    messageObject.latitude = null;
+    io.to(clients[clients.length - 1]).emit('client receive message', JSON.stringify(messageObject));
   }
   
-  socket.on('chat message', function(msg){ //when the server recieves a "chat message"
+  socket.on('client send message', function(msg){ //when the server recieves a "chat message"
 
     var messageObject = JSON.parse(msg); //convert the stringified object to an object
 
@@ -46,10 +50,14 @@ io.on('connection', function(socket){
     //add the message's data to the array
     messageArr.push(messageObject); 
 
-    //STRIP THE MESSAGEOBJECT OF IT'S COLOR/LOCATION/USERID BEFORE EMITTING
+    //STRIP THE MESSAGEOBJECT OF IT'S LOCATION/USERID BEFORE EMITTING
+    messageObject.userID = null;
+    messageObject.latitude = null;
+    messageObject.longitude = null;
 
     //emit a "chat message" with the data msg
-    io.emit('chat message', JSON.stringify(messageObject));
+    messageString = JSON.stringify(messageObject);
+    io.emit('client receive message', messageString);
   });
 });
 
