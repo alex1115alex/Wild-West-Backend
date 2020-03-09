@@ -18,4 +18,4 @@ socketio.on("connection", (userSocket) => {
     })
 })
 
-http.listen(80, "0.0.0.0")
+http.listen(8080, "localhost")
