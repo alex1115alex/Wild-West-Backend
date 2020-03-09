@@ -4,7 +4,7 @@ var io = require('socket.io')(http);
 const fs = require("fs");
 
 app.get("/", (req, res) => {
-  res.sendFile("/root/Wild-West/index.html");
+  res.sendFile(__dirname + '/index.html');
 });
 
 /*
