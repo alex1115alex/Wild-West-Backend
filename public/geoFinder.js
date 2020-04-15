@@ -1,4 +1,5 @@
 function getLocation() {
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getLocationHelper);
   } else {
@@ -28,6 +29,19 @@ function positionScrambler(latitude, longitude) {
   // this is approximate; 69.172 is the distance [mi] of 1 deg longitude @ equator
   // we could approximate it to the distances at 40 degrees latitude, around middle of US
 
+  // Define objects
+  const status = document.querySelector('#status');
+  const mapLink = document.querySelector('#map-link');
+  const scrambledMapLink = document.querySelector('#scrambled-map-link');
+  const latOut = document.querySelector('#latOut');
+  const longOut = document.querySelector('#longOut');
+
+    // clear variables
+    // mapLink.href = ''; is this even worth doing? Could be helpful to handle unchanged coords
+    // mapLink.textContent = '';
+
+  console.log("Original coordinates: ",latitude,longitude);
+
   var latConversion = (68.703 + 69.407)/2; // [mi/deg] from lat to miles
   var latRadius = 0.5/latConversion; // half a mile in degrees latitude
 
@@ -46,7 +60,15 @@ function positionScrambler(latitude, longitude) {
   // final scrambled location
   var scrambledLat = latitude + latScrambledRadius;
   var scrambledLong = longitude + longScrambledRadius;
-
   console.log(scrambledLat,scrambledLong);
+
+  // write to location test page
+  mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+  mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+  scrambledMapLink.href = `https://www.openstreetmap.org/#map=18/${scrambledLat}/${scrambledLong}`;
+  scrambledMapLink.textContent = `Latitude: ${scrambledLat} °, Longitude: ${scrambledLong} °`;
+  latOut.textContent = scrambledLat;
+  longOut.textContent = scrambledLong;
+
   return [scrambledLat,scrambledLong];
 }
