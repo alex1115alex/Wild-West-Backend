@@ -1,0 +1,42 @@
+<!--
+  TO DO: 
+  - display scrambled lat and long
+  - test functionality with different browsers
+      - firefox/other privacy-oriented browsers, mobile browsers
+      - eventually will need same functionality on Flutter/app
+-->
+<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Location Testing</title>
+      </head>
+      <body>
+        <h1>Welcome to the Wild West!</h1>
+        <p>
+          This is a barebones placeholder webpage for location testing. Come back later to see the real deal.
+        </p>
+
+        <form action="/action_page.php">
+          <label for="message">Message:</label><br>
+          <input type="textbox" id="message" name="message" placeholder="say something cool"><br>
+          <input type="submit" value="Start" class="btn btn-primary btn-block">
+        </form>
+
+        <input type="button" onclick="var latitude,longitude = getLocation(); console.log(latitude)" value="Scramble my Location"> 
+
+        <p id="locationHeader"></p>
+        <p id = "status"></p>
+        <a id = "map-link" target="_blank"></a>
+
+        <p id="textOut">This is a demonstration.</p>
+        <p id="latOut">Scrambled latitude goes here</p>
+        <p id="longOut">Scrambled longitude goes here</p>
+
+        <a id = "scrambled-map-link" target="_blank"></a>
+
+        <script src="geoFinder.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	    	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      </body>
+    </html>

@@ -11,4 +11,42 @@ function getLocation() {
 function getLocationHelper(position) {
   latitude = position.coords.latitude;
   longitude = position.coords.longitude;
+
+  // scramble location values
+  var scrambledLocation = positionScrambler(latitude,longitude);
+  scrambledLat = scrambledLocation[0]; 
+  scrambledLong = scrambledLocation[1];
+
+
+}
+
+function positionScrambler(latitude, longitude) {
+  // 1 degree latitude ~ 69 miles 
+  // (ranges from 68.703 mi [equator] to 69.407 mi [poles])
+  // averaging this value out approximates us at ~45 degrees latitude
+  // cos(latitude) * 69.172
+  // this is approximate; 69.172 is the distance [mi] of 1 deg longitude @ equator
+  // we could approximate it to the distances at 40 degrees latitude, around middle of US
+
+  var latConversion = (68.703 + 69.407)/2; // [mi/deg] from lat to miles
+  var latRadius = 0.5/latConversion; // half a mile in degrees latitude
+
+  var radLat = latitude*Math.PI/180;
+  var longConversion = Math.cos(radLat) * 69.172;
+  var longRadius = 0.5/longConversion; // half a mile in degrees longitude
+
+  console.log("Conversion radii: ",latRadius,longRadius);
+
+  // randomized radius values to add to position (+/- no more than half a mile)
+  latScrambledRadius = Math.random() * 2*latRadius - latRadius; 
+  longScrambledRadius = Math.random() * 2*longRadius - longRadius;
+
+  console.log("Scrambling distances",latScrambledRadius,longScrambledRadius);
+
+  // final scrambled location
+  var scrambledLat = latitude + latScrambledRadius;
+  var scrambledLong = longitude + longScrambledRadius;
+
+  console.log(scrambledLat,scrambledLong);
+  return [scrambledLat,scrambledLong];
 }
