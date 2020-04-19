@@ -18,6 +18,7 @@ io.on('connection', function (socket) {
   //push the socket's ID to the clients array
   clients.push(socket.id);
 
+  //returns true if the message is valid
   function isValidMessage(message){
     if(message == "" || message.trim() == "")
     {
@@ -26,6 +27,7 @@ io.on('connection', function (socket) {
     return true;
   }
   
+  //Sanitizes user input so they can't cross site script
   function sanitizeMessage(message) {
     const map = {
         '&': '&amp;',
@@ -34,8 +36,9 @@ io.on('connection', function (socket) {
         '"': '&quot;',
         "'": '&#x27;',
         "/": '&#x2F;',
+        "`": '&grave;',
     };
-    const reg = /[&<>"'/]/ig;
+    const reg = /[&<>"'/`]/ig;
     return message.replace(reg, (match)=>(map[match]));
   }
 
