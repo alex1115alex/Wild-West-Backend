@@ -4,11 +4,10 @@ function getCurrentPosition(options = {}) {
   });
 }
 
-const fetchCoordinates = async () => {
+async function fetchCoordinates(){
   try {
       const { coords } = await getCurrentPosition();
       const { latitude, longitude } = coords;
-
       positionScrambler(latitude,longitude);
   } catch (error) {
       // Handle error
@@ -66,5 +65,7 @@ function positionScrambler(latitude, longitude) {
   //longOut.textContent = scrambledLong;
   document.getElementById("longitudeDiv").innerHTML = scrambledLong;
   document.getElementById("latitudeDiv").innerHTML = scrambledLat;
-  return [scrambledLat,scrambledLong];
+
+  //now that we've successfully started gotten our coordinates, we can begin the connection process!!!
+  return connectToServer();
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
   <title>Wild West (Web)</title>
   <style>
@@ -33,6 +33,10 @@
         padding: 10px;
       }
       */
+    body {
+      background-color: #FFE5AE;
+    }
+
     #messages {
       list-style-type: none;
       margin: 0;
@@ -53,60 +57,122 @@
     }
 
     #messagesContainer {
-      margin: 0% 10% 0% 10%;
       border-color: #000;
+      border-top: solid;
+      width: 100vw;
+      height: 80vh;
+      overflow-y:auto;
     }
 
     #input {
-      margin-left: 10%;
-      margin-right: 10%;
-      padding-bottom: 5%;
+      position:absolute;
+      bottom:0px;
+      margin-bottom: 0px;
+      width: 100%;
+      background-color: #6B979B;
+    }
+
+    #sendButton{
+      color:#443276;
+      background-color: #443276;
     }
 
     .replyButton {
       border: solid;
     }
 
-    .viewRepliesButton{
+    .viewRepliesButton {
       border: solid;
     }
 
-    #longitudeDiv, #latitudeDiv{
-      display: block;
+    #longitudeDiv,
+    #latitudeDiv {
+      display: none;
     }
 
+    #overlay {
+      background-color: #FFE5AE;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 200;
+    }
+
+    .navbar-custom{
+      background-color: #FFF0CF;
+      color: #000;
+    }
+
+    #splash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #splash img {
+      height: 40vh;
+      width: 40vh;
+    }
+
+    #loadingInfo {
+      text-align: center;
+    }
+
+    #navlogo{
+      height:30px;
+      width: 30px;
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- This is the overlay that shows up when loading the site. Makes things look nice and professional -->
+  <div id="overlay">
+    <div id="splash">
+      <img src="wild_west_logo_trans.png">
+      <h2 id="loadingInfo">Fetching location data and loading posts...</h2>
+    </div>
+  </div>
 
   <!-- I couldn't be bothered to figure out how to get the long/lat here from the geoFinder so I'm
   just saving them to divs' innerHTML and then reading it back. If it's stupid and it works it ain't stupid. -->
   <div id="longitudeDiv">0</div>
   <div id="latitudeDiv">0</div>
 
-  <div class="jumbotron">
-    <h1>Wild West Alpha</h1>
-  </div>
+  <nav id="navbar" class="navbar navbar-expand-lg navbar-custom">
+    <a class="navbar-brand" href="#"><img id="navlogo" src="wild_west_logo_trans.png"> Wild West</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Info</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
+  <!-- This is the box that contains all the messages -->
   <div id="messagesContainer">
     <ul id="messages"></ul>
+  </div>
 
-
-    <div class="row" id="input">
-      <div class="col-1" id="replyingTo">
-
-      </div>
-      <div class="col-9">
-        <form action="">
-          <input type="text" class="form-control form-control-lg" id="m" autocomplete="off" />
-        </form>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary">Send</button>
-      </div>
+  <!-- This is the input area -->
+  <div class="row" id="input">
+    <div class="col-1" id="replyingTo"></div>
+    <div class="col-9">
+      <form action="">
+        <input type="text" class="form-control form-control-lg" id="m" autocomplete="off" />
+      </form>
+    </div>
+    <div class="col-2">
+      <button id="sendButton" class="btn btn-primary">Send</button>
     </div>
   </div>
+
 
   <div id="locationOutput">
 
@@ -122,19 +188,18 @@
     var longitude = "0";
     var latitude = "0";
     var parentID = -1; //-1 is the default value if it's a new "thread"/doesn't have a parent/isn't a reply
+    var cookie = "";
 
-    //check if cookie exists
-    //IF the user has no cookie
-    if (getCookie("userID") == "" || getCookie("userID") == null) {
-      var newCookie = Math.random() //generate cookie. This produces a random string
-        .toString(36)
-        .slice(2);
-      setCookie("userID", newCookie, 999); //save the "cookie" (ie the randomy generated string) to the user's cookies as "userID"
+    function checkAndGenerateCookie() {
+      //IF the user has no cookie
+      if (getCookie("userID") == "" || getCookie("userID") == null) {
+        var newCookie = Math.random() //generate cookie. This produces a random string
+          .toString(36)
+          .slice(2);
+        setCookie("userID", newCookie, 999); //save the "cookie" (ie the randomy generated string) to the user's cookies as "userID"
+      }
+      cookie = getCookie("userID"); //set cookie variable
     }
-    var cookie = getCookie("userID"); //set cookie variable
-
-    //get our coordinates
-    fetchCoordinates();
 
     function replyToMessage(messageIDToReplyTo) {
       $("#" + messageIDToReplyTo).children("li").show();
@@ -149,10 +214,6 @@
 
     function showChildren(messageIDToShowChildren) {
       $("#" + messageIDToShowChildren).children("li").show();
-      if($("#" + messageIDToShowChildren).children("li").length == 0)
-      {
-        alert("nigga");
-      }
     }
 
     function hideChildren(messageIDToShowChildren) {
@@ -168,75 +229,98 @@
       }
     }
 
-    $(function () {
-      var socket = io();
+    function disableOverlay() {
+      $("#overlay").hide();
+    }
 
-      // on start, set up our location data
-      var locationData = {
-        longitude: longitude,
-        latitude: latitude
-      };
+    //check and generate cookie if it doesn't exist
+    checkAndGenerateCookie();
 
-      //and use the location data to log in to the server (this lets the server give us location-specific content)
-      socket.emit('client log in', JSON.stringify(locationData));
+    //get our coordinates. This function calls to the position scrambler function which then calls back to "connectToServer()"
+    fetchCoordinates();
 
-      //when the user clicks submit
-      $("form").submit(function () {
-        var messageObj = {
+
+    function connectToServer() {
+
+      //hide the overlay
+      //TODO: MOVE THIS AFTER WE HAVE LOADED ALL RELEVANT POSTS...
+      disableOverlay();
+
+      //pull the location data from the div
+      longitude = document.getElementById("longitudeDiv").innerHTML;
+      latitude = document.getElementById("latitudeDiv").innerHTML;
+
+      //make the socket connetion
+      $(function () {
+        var socket = io();
+
+        // on start, set up our location data
+        var locationData = {
           longitude: longitude,
-          latitude: latitude,
-          color: "",
-          userID: cookie,
-          messageID: "",
-          parentID: parentID,
-          message: $("#m").val()
+          latitude: latitude
         };
 
-        var messageToUpload = JSON.stringify(messageObj);
+        //and use the location data to log in to the server (this lets the server give us location-specific content)
+        socket.emit('client log in', JSON.stringify(locationData));
 
-        //emit "chat message" with the data messageToUpload
-        socket.emit("client send message", messageToUpload);
+        //when the user clicks submit
+        $("form").submit(function () {
+          var messageObj = {
+            longitude: longitude,
+            latitude: latitude,
+            color: "",
+            userID: cookie,
+            messageID: "",
+            parentID: parentID,
+            message: $("#m").val()
+          };
 
-        //reset the textbox, and reset the reply and end the function
-        $("#m").val("");
-        cancelReplyToMessage();
-        return false;
+          var messageToUpload = JSON.stringify(messageObj);
+
+          //emit "chat message" with the data messageToUpload
+          socket.emit("client send message", messageToUpload);
+
+          //reset the textbox, and reset the reply and end the function
+          $("#m").val("");
+          cancelReplyToMessage();
+          return false;
+        });
+
+        //when a "chat message" is received, append the chat to the messages list
+        socket.on("client receive message", function (msg) {
+          var newMessageObject = JSON.parse(msg);
+
+          //create div and li
+          var liNode = $(
+            "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
+            newMessageObject.color +
+            ";height:40px;width:40px'></div>" + newMessageObject.message +
+            "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
+          );
+
+          if (newMessageObject.parentID != -1) {
+            liNode.find(".viewRepliesButton").hide();
+          }
+
+          //append the message to #messages
+          if (newMessageObject.parentID == -1) {
+            $("#messages").append(liNode);
+          }
+          else //(or if it's a reply append it to the parent message)
+          {
+            $("#" + newMessageObject.parentID).append(liNode);
+          }
+
+
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on("server message", function (msg) {
+          alert(msg);
+        });
       });
+    }
 
-      //when a "chat message" is received, append the chat to the messages list
-      socket.on("client receive message", function (msg) {
-        var newMessageObject = JSON.parse(msg);
-
-        //create div and li
-        var liNode = $(
-          "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
-          newMessageObject.color +
-          ";height:40px;width:40px'></div>" + newMessageObject.message +
-          "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
-        );
-
-        if(newMessageObject.parentID != -1)
-        {
-          liNode.find(".viewRepliesButton").hide();
-        }
-
-        //append the message to #messages
-        if (newMessageObject.parentID == -1) {
-          $("#messages").append(liNode);
-        }
-        else //(or if it's a reply append it to the parent message)
-        {
-          $("#" + newMessageObject.parentID).append(liNode);
-        }
-
-
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-
-      socket.on("server message", function (msg) {
-        alert(msg);
-      });
-    });
   </script>
 </body>
 
