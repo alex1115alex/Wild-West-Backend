@@ -18,7 +18,26 @@ io.on('connection', function (socket) {
   //push the socket's ID to the clients array
   clients.push(socket.id);
 
-
+  function isValidMessage(message){
+    if(message == "" || message.trim() == "")
+    {
+      return false;
+    }
+    return true;
+  }
+  
+  function sanitizeMessage(message) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        "/": '&#x2F;',
+    };
+    const reg = /[&<>"'/]/ig;
+    return message.replace(reg, (match)=>(map[match]));
+  }
 
   //when the client logs in
   socket.on('client log in', function (msg) {
@@ -55,7 +74,14 @@ io.on('connection', function (socket) {
       io.emit('server message', "You can't post without a userID");
       return false;
     }
-    //TODO: SANITIZE INPUT TO DISABLE X-SITE SCRIPTING HERE
+
+    //Replace the message with a sanitized version
+    messageObject.message = sanitizeMessage(messageObject.message);
+
+    //validate the newly sanitized message
+    if(isValidMessage(messageObject.message)){
+      return false;
+    }
 
     //set the message's color
     messageObject.color = colorFromUserID.stringToRGB(colorFromUserID.hashCode(messageObject.userID));
