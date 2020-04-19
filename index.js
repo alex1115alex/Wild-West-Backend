@@ -79,7 +79,7 @@ io.on('connection', function (socket) {
     messageObject.message = sanitizeMessage(messageObject.message);
 
     //validate the newly sanitized message
-    if(isValidMessage(messageObject.message)){
+    if(!isValidMessage(messageObject.message)){
       return false;
     }
 
