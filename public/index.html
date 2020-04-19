@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Wild West (Web)</title>
-    <style>
-      /*
+
+<head>
+  <title>Wild West (Web)</title>
+  <style>
+    /*
       * {
         margin: 0;
         padding: 0;
@@ -32,49 +33,71 @@
         padding: 10px;
       }
       */
-      #messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      
-      #messages li {
-        padding: 5px 10px;
-      }
-      #messages li:nth-child(odd) {
-        background: #eee;
-      }
-      #messages {
-        margin-bottom: 40px;
-      }
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
 
-      #messagesContainer {
-        margin: 0% 10% 0% 10%;
-        border-top: solid;
-        border-left: solid;
-        border-right: solid;
-        border-color: #000;
-      }
+    #messages li {
+      padding: 5px 10px;
+      border-left: solid;
+    }
 
-      #input{
-        margin-left: 10%;
-        margin-right: 10%;
-        padding-bottom: 5%;
-      }
+    #messages li:nth-child(odd) {
+      background: #eee;
+    }
 
-    </style>
-  </head>
-  <body>
-    <div class="jumbotron">
-      <h1>Wild West Alpha</h1>
-    </div>
+    #messages {
+      margin-bottom: 40px;
+    }
 
-    <div id="messagesContainer">
-      <ul id="messages"></ul>
-    
+    #messagesContainer {
+      margin: 0% 10% 0% 10%;
+      border-color: #000;
+    }
+
+    #input {
+      margin-left: 10%;
+      margin-right: 10%;
+      padding-bottom: 5%;
+    }
+
+    .replyButton {
+      border: solid;
+    }
+
+    .viewRepliesButton{
+      border: solid;
+    }
+
+    #longitudeDiv, #latitudeDiv{
+      display: block;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- I couldn't be bothered to figure out how to get the long/lat here from the geoFinder so I'm
+  just saving them to divs' innerHTML and then reading it back. If it's stupid and it works it ain't stupid. -->
+  <div id="longitudeDiv">0</div>
+  <div id="latitudeDiv">0</div>
+
+  <div class="jumbotron">
+    <h1>Wild West Alpha</h1>
+  </div>
+
+  <div id="messagesContainer">
+    <ul id="messages"></ul>
+
 
     <div class="row" id="input">
-      <div class="col-10">
+      <div class="col-1" id="replyingTo">
+
+      </div>
+      <div class="col-9">
         <form action="">
           <input type="text" class="form-control form-control-lg" id="m" autocomplete="off" />
         </form>
@@ -85,82 +108,136 @@
     </div>
   </div>
 
-  <div id = "locationOutput">
+  <div id="locationOutput">
 
   </div>
 
-    <script src="geoFinder.js"></script>
-    <script src="cookies.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="geoFinder.js"></script>
+  <script src="cookies.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
-    <script>
-      var longitude = "0";
-      var latitude = "0";
+  <script>
+    var longitude = "0";
+    var latitude = "0";
+    var parentID = -1; //-1 is the default value if it's a new "thread"/doesn't have a parent/isn't a reply
 
-      //check if cookie exists
-      if (getCookie("userID") == "" || getCookie("userID") == null) {
-        //IF the user has no cookie
-        var newCookie = Math.random() //generate cookie. This produces a random string
-          .toString(36)
-          .slice(2); 
-        setCookie("userID", newCookie, 999); //save the "cookie" (ie the randomy generated string) to the user's cookies as "userID"
+    //check if cookie exists
+    //IF the user has no cookie
+    if (getCookie("userID") == "" || getCookie("userID") == null) {
+      var newCookie = Math.random() //generate cookie. This produces a random string
+        .toString(36)
+        .slice(2);
+      setCookie("userID", newCookie, 999); //save the "cookie" (ie the randomy generated string) to the user's cookies as "userID"
+    }
+    var cookie = getCookie("userID"); //set cookie variable
+
+    //get our coordinates
+    fetchCoordinates();
+
+    function replyToMessage(messageIDToReplyTo) {
+      $("#" + messageIDToReplyTo).children("li").show();
+      document.getElementById("replyingTo").innerHTML = "Replying to: " + messageIDToReplyTo;
+      parentID = messageIDToReplyTo;
+    }
+
+    function cancelReplyToMessage() {
+      document.getElementById("replyingTo").innerHTML = "";
+      parentID = -1;
+    }
+
+    function showChildren(messageIDToShowChildren) {
+      $("#" + messageIDToShowChildren).children("li").show();
+      if($("#" + messageIDToShowChildren).children("li").length == 0)
+      {
+        alert("nigga");
       }
-      var cookie = getCookie("userID"); //set cookie variable
+    }
 
-      //request location if we haven't already
-      if (longitude == 0 && latitude == 0) {
-        getLocation();
+    function hideChildren(messageIDToShowChildren) {
+      $("#" + messageIDToShowChildren).children("li").hide();
+    }
+
+    function toggleChildren(messageIDToToggleChildren) {
+      if ($("#" + messageIDToToggleChildren).children("li").is(":hidden")) {
+        showChildren(messageIDToToggleChildren);
       }
+      else {
+        hideChildren(messageIDToToggleChildren);
+      }
+    }
 
-      $(function() {
-        var socket = io();
-        //when the user clicks submit
-        $("form").submit(function() {
-          var messageObj = {
-            longitude: longitude,
-            latitude: latitude,
-            color: "",
-            userID: cookie,
-            message: $("#m").val()
-          };
+    $(function () {
+      var socket = io();
 
-          var messageToUpload = JSON.stringify(messageObj);
+      // on start, set up our location data
+      var locationData = {
+        longitude: longitude,
+        latitude: latitude
+      };
 
-          //emit "chat message" with the data messageToUpload
-          socket.emit("client send message", messageToUpload);
+      //and use the location data to log in to the server (this lets the server give us location-specific content)
+      socket.emit('client log in', JSON.stringify(locationData));
 
-          //reset the textbox and end the function
-          $("#m").val("");
-          return false;
-        });
+      //when the user clicks submit
+      $("form").submit(function () {
+        var messageObj = {
+          longitude: longitude,
+          latitude: latitude,
+          color: "",
+          userID: cookie,
+          messageID: "",
+          parentID: parentID,
+          message: $("#m").val()
+        };
 
-        //when a "chat message" is received, append the chat to the messages list
-        socket.on("client receive message", function(msg) {
-          var newMessageObject = JSON.parse(msg);
+        var messageToUpload = JSON.stringify(messageObj);
 
-          //create div and li
-          var liNode = $(
-            "<li><div style='background-color:#" +
-              newMessageObject.color +
-              ";height:40px;width:40px'></div>" +
-              newMessageObject.message +
-              "</li>"
-          );
+        //emit "chat message" with the data messageToUpload
+        socket.emit("client send message", messageToUpload);
 
-          //append the message to #messages
-          $("#messages").append(liNode);
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-
-        socket.on("server message", function(msg) {
-          alert(msg);
-        });
+        //reset the textbox, and reset the reply and end the function
+        $("#m").val("");
+        cancelReplyToMessage();
+        return false;
       });
-    </script>
-  </body>
+
+      //when a "chat message" is received, append the chat to the messages list
+      socket.on("client receive message", function (msg) {
+        var newMessageObject = JSON.parse(msg);
+
+        //create div and li
+        var liNode = $(
+          "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
+          newMessageObject.color +
+          ";height:40px;width:40px'></div>" + newMessageObject.message +
+          "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
+        );
+
+        if(newMessageObject.parentID != -1)
+        {
+          liNode.find(".viewRepliesButton").hide();
+        }
+
+        //append the message to #messages
+        if (newMessageObject.parentID == -1) {
+          $("#messages").append(liNode);
+        }
+        else //(or if it's a reply append it to the parent message)
+        {
+          $("#" + newMessageObject.parentID).append(liNode);
+        }
+
+
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on("server message", function (msg) {
+        alert(msg);
+      });
+    });
+  </script>
+</body>
+
 </html>

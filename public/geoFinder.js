@@ -1,25 +1,20 @@
-function getLocation() {
+function getCurrentPosition(options = {}) {
+  return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  });
+}
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(getLocationHelper);
-  } else {
-    //User's browser wont give location data
-    alert("Geolocation is not supported by this browser.");
-    //kick them off?
+const fetchCoordinates = async () => {
+  try {
+      const { coords } = await getCurrentPosition();
+      const { latitude, longitude } = coords;
+
+      positionScrambler(latitude,longitude);
+  } catch (error) {
+      // Handle error
+      console.error(error);
   }
-}
-
-function getLocationHelper(position) {
-  latitude = position.coords.latitude;
-  longitude = position.coords.longitude;
-
-  // scramble location values
-  var scrambledLocation = positionScrambler(latitude,longitude);
-  scrambledLat = scrambledLocation[0]; 
-  scrambledLong = scrambledLocation[1];
-
-
-}
+};
 
 function positionScrambler(latitude, longitude) {
   // 1 degree latitude ~ 69 miles 
@@ -63,12 +58,13 @@ function positionScrambler(latitude, longitude) {
   console.log(scrambledLat,scrambledLong);
 
   // write to location test page
-  mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-  mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-  scrambledMapLink.href = `https://www.openstreetmap.org/#map=18/${scrambledLat}/${scrambledLong}`;
-  scrambledMapLink.textContent = `Latitude: ${scrambledLat} °, Longitude: ${scrambledLong} °`;
-  latOut.textContent = scrambledLat;
-  longOut.textContent = scrambledLong;
-
+  //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+  //mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+  //scrambledMapLink.href = `https://www.openstreetmap.org/#map=18/${scrambledLat}/${scrambledLong}`;
+  //scrambledMapLink.textContent = `Latitude: ${scrambledLat} °, Longitude: ${scrambledLong} °`;
+  //latOut.textContent = scrambledLat;
+  //longOut.textContent = scrambledLong;
+  document.getElementById("longitudeDiv").innerHTML = scrambledLong;
+  document.getElementById("latitudeDiv").innerHTML = scrambledLat;
   return [scrambledLat,scrambledLong];
 }
