@@ -291,6 +291,14 @@
         socket.on("client receive message", function (msg) {
           var newMessageObject = JSON.parse(msg);
 
+          //if the message is a reply AND its parent cannot be found
+          if(newMessageObject.parentID != -1 && !$("#" + newMessageObject.parentID).length)
+          {
+            //TODO: Uncomment the next line if we have issues seeing "ghost" messages
+            //ie messages that should have a parent but don't
+            //return false;
+          }
+
           //create div and li
           var liNode = $(
             "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
