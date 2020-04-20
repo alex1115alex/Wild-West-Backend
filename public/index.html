@@ -254,14 +254,15 @@
       $(function () {
         var socket = io();
 
-        // on start, set up our location data
-        var locationData = {
+        // on start, set up our user data
+        var userData = {
+          userID: cookie,
           longitude: longitude,
           latitude: latitude
         };
 
         //and use the location data to log in to the server (this lets the server give us location-specific content)
-        socket.emit('client log in', JSON.stringify(locationData));
+        socket.emit('client log in', JSON.stringify(userData));
 
         //when the user clicks submit
         $("form").submit(function () {

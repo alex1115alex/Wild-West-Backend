@@ -11,46 +11,88 @@ var clients = []; //List of socket connections. Used to update new users on rece
 var messageArr = []; //List of messags objects
 var threadArr = []; //list of thread objects
 
+var numberOfMiles = 200;
+
 app.use(express.static(__dirname + "/public"));
 
 io.on('connection', function (socket) {
 
-  //push the socket's ID to the clients array
-  clients.push(socket.id);
+  
 
   //returns true if the message is valid
-  function isValidMessage(message){
-    if(message == "" || message.trim() == "")
-    {
+  function isValidMessage(message) {
+    if (message == "" || message.trim() == "") {
       return false;
     }
     return true;
   }
-  
+
   //Sanitizes user input so they can't cross site script
   function sanitizeMessage(message) {
     const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#x27;',
-        "/": '&#x2F;',
-        "`": '&grave;',
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+      "`": '&grave;',
     };
     const reg = /[&<>"'/`]/ig;
-    return message.replace(reg, (match)=>(map[match]));
+    return message.replace(reg, (match) => (map[match]));
   }
+
+  function coordinatesAreLessThanXMilesApart(lat1, long1, lat2, long2, maxMiles) {
+    var coordThreshold = maxMiles/69;
+    var x_dist = long2 - long1;
+    var y_dist = lat2 - lat1;
+    if (x_dist < 0) {
+      x_dist *= -1;
+    }
+    if (y_dist < 0) {
+      y_dist *= -1;
+    }
+
+    console.log("Coord theshold: " + coordThreshold);
+    console.log("User lat: " + lat1 + "\nUser long: " + long1);
+    console.log("Post lat: " + lat2 + "\nPost long: " + long2);
+    console.log("Post from user is (x): " + x_dist + "\nPost from user(y): " + y_dist);
+    if(x_dist < coordThreshold && y_dist < coordThreshold)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  //push the socket's ID to the clients array
+  //clients.push(socket.id);
 
   //when the client logs in
   socket.on('client log in', function (msg) {
 
     console.log("New connection from: " + msg);
+    userData = JSON.parse(msg);
+    newClientObject = {
+      socketID: socket.id,
+      userID: userData.userID,
+      latitude: userData.latitude,
+      longitude: userData.longitude,
+    }
+
+    console.log("NEW USER LOG IN: \n" + JSON.stringify(newClientObject));
+    clients.push(newClientObject);
 
     //on connect, send all the messages in memory to the client
     for (var i = 0; i < messageArr.length; i++) {
+      
+      //check if message is within 3000 miles
+      
+      if(!coordinatesAreLessThanXMilesApart(newClientObject.latitude, newClientObject.longitude, messageArr[i].latitude, messageArr[i].longitude, numberOfMiles)){
+        continue;
+      }
+
       //STRIP MESSAGES OF LOCATION/USERID
-      var messageObject = messageArr[i];
+      var messageObject = { ...messageArr[i]};
       messageObject.userID = null;
       messageObject.longitude = null;
       messageObject.latitude = null;
@@ -82,7 +124,7 @@ io.on('connection', function (socket) {
     messageObject.message = sanitizeMessage(messageObject.message);
 
     //validate the newly sanitized message
-    if(!isValidMessage(messageObject.message)){
+    if (!isValidMessage(messageObject.message)) {
       return false;
     }
 
@@ -96,13 +138,25 @@ io.on('connection', function (socket) {
     messageArr.push(messageObject);
 
     //STRIP THE MESSAGEOBJECT OF IT'S LOCATION/USERID BEFORE EMITTING
-    messageObject.userID = null;
-    messageObject.latitude = null;
-    messageObject.longitude = null;
+    var messageObjectToSend = { ...messageObject};
+    messageObjectToSend.userID = null;
+    messageObjectToSend.latitude = null;
+    messageObjectToSend.longitude = null;
 
     //emit a "chat message" with the data msg
-    messageString = JSON.stringify(messageObject);
-    io.emit('client receive message', messageString);
+    //TODO ONLI EMIT TO NEARBY USERS
+    messageString = JSON.stringify(messageObjectToSend);
+
+    //for all clients, check which ones are nearby and send to them
+    for(i = 0; i < clients.length; i++)
+    {
+      if(coordinatesAreLessThanXMilesApart(clients[i].latitude, clients[i].longitude, messageObject.latitude, messageObject.longitude, numberOfMiles))
+      {
+        io.emit('client receive message', messageString);
+      }
+    }
+
+    
   });
 });
 
