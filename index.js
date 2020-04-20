@@ -64,6 +64,43 @@ io.on('connection', function (socket) {
     return false;
   }
 
+  function checkIfUserIDAlreadyExists(userID){
+    for(i = 0; i < clients.length; i++)
+    {
+      if(clients[i].userID == userID)
+      {
+        console.log("USER ID ALREADY EXISTS IN CLIENTS ARRAY")
+        return true;
+      }
+    }
+    console.log("NEW USER ID FOUND")
+    return false;
+  }
+
+  function getSocketIDFromUserID(userID){
+    for(i = 0; i < clients.length; i++)
+    {
+      if(clients[i].userID == userID)
+      {
+        return clients[i].socketID;
+      }
+    }
+    return "-1";
+  }
+
+  function updateSocketIDFromUserID(userID, newSocketID)
+  {
+    for(i = 0; i < clients.length; i++)
+    {
+      if(clients[i].userID == userID)
+      {
+        clients[i].socketID = newSocketID;
+        return true;
+      }
+    }
+    return false;
+  }
+
   //push the socket's ID to the clients array
   //clients.push(socket.id);
 
@@ -80,13 +117,21 @@ io.on('connection', function (socket) {
     }
 
     console.log("NEW USER LOG IN: \n" + JSON.stringify(newClientObject));
-    clients.push(newClientObject);
+    if(!checkIfUserIDAlreadyExists(newClientObject.userID))
+    {
+      clients.push(newClientObject);
+    }
+    else //if it already exists
+    {
+      console.log("updating socket ID");
+      updateSocketIDFromUserID(newClientObject.userID, newClientObject.socketID);
+    }
+   
 
     //on connect, send all the messages in memory to the client
     for (var i = 0; i < messageArr.length; i++) {
       
-      //check if message is within 3000 miles
-      
+      //check if message is nearby
       if(!coordinatesAreLessThanXMilesApart(newClientObject.latitude, newClientObject.longitude, messageArr[i].latitude, messageArr[i].longitude, numberOfMiles)){
         continue;
       }
@@ -98,7 +143,7 @@ io.on('connection', function (socket) {
       messageObject.latitude = null;
 
       //send the message to the latest client
-      io.to(clients[clients.length - 1]).emit('client receive message', JSON.stringify(messageObject));
+      io.to(clients[clients.length - 1].socketID).emit('client receive message', JSON.stringify(messageObject));
     }
 
 
