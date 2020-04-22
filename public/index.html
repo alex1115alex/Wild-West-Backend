@@ -4,6 +4,7 @@
 <head>
   <title>Wild West</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://kit.fontawesome.com/4ada0608ac.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -47,7 +48,7 @@
         <input onsubmit="return false;" type="textarea" class="form-control form-control-lg" id="m" autocomplete="off" />
     </div>
     <div class="col-1">
-      <button id="sendButton" class="btn btn-primary">Send</button>
+      <button id="sendButton" class="btn"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 
@@ -60,6 +61,7 @@
   <script src="cookies.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
   <script src="main.js"></script>

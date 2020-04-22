@@ -20,9 +20,10 @@ var longitude = "0";
       cookie = getCookie("userID"); //set cookie variable
     }
 
-    function replyToMessage(messageIDToReplyTo) {
+    function replyToMessage(messageIDToReplyTo, messageColor) {
       $("#" + messageIDToReplyTo).children("li").show();
-      document.getElementById("replyingTo").innerHTML = "Replying to: " + messageIDToReplyTo;
+      document.getElementById("replyingTo").innerHTML = "@";
+      document.getElementById("replyingTo").style.background = "#" + messageColor;
       parentID = messageIDToReplyTo;
     }
 
@@ -123,7 +124,7 @@ var longitude = "0";
             "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
             newMessageObject.color +
             ";height:40px;width:40px'></div>" + newMessageObject.message +
-            "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
+            "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\", \"" + newMessageObject.color + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
           );
 
           if (newMessageObject.parentID != -1) {
