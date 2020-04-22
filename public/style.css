@@ -1,0 +1,123 @@
+/*
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font: 13px Helvetica, Arial;
+      }
+      form {
+        background: #000;
+        padding: 3px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+      form input {
+        border: 0;
+        padding: 10px;
+        width: 90%;
+        margin-right: 0.5%;
+      }
+      form button {
+        width: 9%;
+        background: rgb(130, 224, 255);
+        border: none;
+        padding: 10px;
+      }
+      */
+      body {
+        background-color: #FFE5AE;
+      }
+  
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+  
+      #messages li {
+        padding: 5px 10px;
+        border-left: solid;
+      }
+  
+      #messages li:nth-child(odd) {
+        background: #eee;
+      }
+  
+      #messages {
+        margin-bottom: 40px;
+      }
+  
+      #messagesContainer {
+        border-color: #000;
+        border-top: solid;
+        width: 100vw;
+        height: 80vh;
+        overflow-y:auto;
+      }
+  
+      #input {
+        position:absolute;
+        bottom:0px;
+        margin-bottom: 0px;
+        width: 100%;
+        background-color: #6B979B;
+      }
+  
+      #sendButton{
+        color:#443276;
+        background-color: #443276;
+      }
+  
+      .replyButton {
+        border: solid;
+      }
+  
+      .viewRepliesButton {
+        border: solid;
+      }
+  
+      #longitudeDiv,
+      #latitudeDiv {
+        display: none;
+      }
+  
+      #overlay {
+        background-color: #FFE5AE;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: 200;
+      }
+  
+      .navbar-custom{
+        background-color: #FFF0CF;
+        color: #000;
+      }
+  
+      #splash {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+  
+      #splash img {
+        height: 40vh;
+        width: 40vh;
+      }
+  
+      #loadingInfo {
+        text-align: center;
+      }
+  
+      #navlogo{
+        height:30px;
+        width: 30px;
+      }
+
+      #helpInfo{
+          margin: 5%;
+      }

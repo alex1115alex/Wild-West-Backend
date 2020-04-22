@@ -2,128 +2,8 @@
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-  <title>Wild West (Web)</title>
-  <style>
-    /*
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font: 13px Helvetica, Arial;
-      }
-      form {
-        background: #000;
-        padding: 3px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-      form input {
-        border: 0;
-        padding: 10px;
-        width: 90%;
-        margin-right: 0.5%;
-      }
-      form button {
-        width: 9%;
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
-      }
-      */
-    body {
-      background-color: #FFE5AE;
-    }
-
-    #messages {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    #messages li {
-      padding: 5px 10px;
-      border-left: solid;
-    }
-
-    #messages li:nth-child(odd) {
-      background: #eee;
-    }
-
-    #messages {
-      margin-bottom: 40px;
-    }
-
-    #messagesContainer {
-      border-color: #000;
-      border-top: solid;
-      width: 100vw;
-      height: 80vh;
-      overflow-y:auto;
-    }
-
-    #input {
-      position:absolute;
-      bottom:0px;
-      margin-bottom: 0px;
-      width: 100%;
-      background-color: #6B979B;
-    }
-
-    #sendButton{
-      color:#443276;
-      background-color: #443276;
-    }
-
-    .replyButton {
-      border: solid;
-    }
-
-    .viewRepliesButton {
-      border: solid;
-    }
-
-    #longitudeDiv,
-    #latitudeDiv {
-      display: none;
-    }
-
-    #overlay {
-      background-color: #FFE5AE;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      z-index: 200;
-    }
-
-    .navbar-custom{
-      background-color: #FFF0CF;
-      color: #000;
-    }
-
-    #splash {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #splash img {
-      height: 40vh;
-      width: 40vh;
-    }
-
-    #loadingInfo {
-      text-align: center;
-    }
-
-    #navlogo{
-      height:30px;
-      width: 30px;
-    }
-  </style>
+  <title>Wild West</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -149,7 +29,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Info</a>
+          <a class="nav-link" href="help.html">Help</a>
         </li>
       </ul>
     </div>
@@ -189,6 +69,8 @@
     var latitude = "0";
     var parentID = -1; //-1 is the default value if it's a new "thread"/doesn't have a parent/isn't a reply
     var cookie = "";
+    var autoScrollingEnabled = true;
+    
 
     function checkAndGenerateCookie() {
       //IF the user has no cookie
@@ -320,8 +202,13 @@
             $("#" + newMessageObject.parentID).append(liNode);
           }
 
+          //auto scroll to the bottom
+          if(autoScrollingEnabled)
+          {
+            //I'm not really sure what number to put in so I just put in a really big one
+          $("#messagesContainer").scrollTop(888888888); 
+          }
 
-          window.scrollTo(0, document.body.scrollHeight);
         });
 
         socket.on("server message", function (msg) {

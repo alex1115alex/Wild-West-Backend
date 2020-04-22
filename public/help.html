@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <title>Wild West (Web)</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="/"><img id="navlogo" src="wild_west_logo_trans.png"> Wild West</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Help</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="helpInfo">
+        <h2>Hello!</h2>
+        <p>If Wild West can't get passed the title screen it's probably because you've denied location access.</p>
+        <p>To fix this problem:</p>
+        <p>Chrome: Open "Settings" -> "Site Settings" -> "Location" -> and then remove Wild West from the list of blocked websites</p>
+        <p>Other browsers: I'll leave this section up to Justin</p>
+        </h2>
+    </div>
+
+</body>
+<script src="geoFinder.js"></script>
+<script src="cookies.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+</html>
