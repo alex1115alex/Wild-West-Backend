@@ -1,18 +1,18 @@
 function getCurrentPosition(options = {}) {
   return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
   });
 }
 
-async function fetchCoordinates(){
+async function fetchCoordinates() {
   try {
-      const { coords } = await getCurrentPosition();
-      const { latitude, longitude } = coords;
-      positionScrambler(latitude,longitude);
+    const { coords } = await getCurrentPosition();
+    const { latitude, longitude } = coords;
+    positionScrambler(latitude, longitude);
   } catch (error) {
-      // Handle error
-      alert("FAILURE REEE");
-      console.error(error);
+    console.error(error);
+    //if we can't get the user's location send them to the help screen 
+    window.location.href = "help.html";
   }
 };
 
@@ -31,31 +31,31 @@ function positionScrambler(latitude, longitude) {
   const latOut = document.querySelector('#latOut');
   const longOut = document.querySelector('#longOut');
 
-    // clear variables
-    // mapLink.href = ''; is this even worth doing? Could be helpful to handle unchanged coords
-    // mapLink.textContent = '';
+  // clear variables
+  // mapLink.href = ''; is this even worth doing? Could be helpful to handle unchanged coords
+  // mapLink.textContent = '';
 
-  console.log("Original coordinates: ",latitude,longitude);
+  console.log("Original coordinates: ", latitude, longitude);
 
-  var latConversion = (68.703 + 69.407)/2; // [mi/deg] from lat to miles
-  var latRadius = 0.5/latConversion; // half a mile in degrees latitude
+  var latConversion = (68.703 + 69.407) / 2; // [mi/deg] from lat to miles
+  var latRadius = 0.5 / latConversion; // half a mile in degrees latitude
 
-  var radLat = latitude*Math.PI/180;
+  var radLat = latitude * Math.PI / 180;
   var longConversion = Math.cos(radLat) * 69.172;
-  var longRadius = 0.5/longConversion; // half a mile in degrees longitude
+  var longRadius = 0.5 / longConversion; // half a mile in degrees longitude
 
-  console.log("Conversion radii: ",latRadius,longRadius);
+  console.log("Conversion radii: ", latRadius, longRadius);
 
   // randomized radius values to add to position (+/- no more than half a mile)
-  latScrambledRadius = Math.random() * 2*latRadius - latRadius; 
-  longScrambledRadius = Math.random() * 2*longRadius - longRadius;
+  latScrambledRadius = Math.random() * 2 * latRadius - latRadius;
+  longScrambledRadius = Math.random() * 2 * longRadius - longRadius;
 
-  console.log("Scrambling distances",latScrambledRadius,longScrambledRadius);
+  console.log("Scrambling distances", latScrambledRadius, longScrambledRadius);
 
   // final scrambled location
   var scrambledLat = latitude + latScrambledRadius;
   var scrambledLong = longitude + longScrambledRadius;
-  console.log(scrambledLat,scrambledLong);
+  console.log(scrambledLat, scrambledLong);
 
   // write to location test page
   //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
