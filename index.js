@@ -53,10 +53,13 @@ io.on('connection', function (socket) {
       y_dist *= -1;
     }
 
+    console.log("=== NEW COORDINATE CHECK ===");
     console.log("Coord theshold: " + coordThreshold);
     console.log("User lat: " + lat1 + "\nUser long: " + long1);
     console.log("Post lat: " + lat2 + "\nPost long: " + long2);
     console.log("Post from user is (x): " + x_dist + "\nPost from user(y): " + y_dist);
+    console.log(">>> USER IS WITHIN COORDINATE RANGE?: " + (x_dist < coordThreshold && y_dist < coordThreshold));
+    console.log("=== END COORDINATE CHECK ===");
     if(x_dist < coordThreshold && y_dist < coordThreshold)
     {
       return true;
@@ -107,7 +110,7 @@ io.on('connection', function (socket) {
   //when the client logs in
   socket.on('client log in', function (msg) {
 
-    console.log("New connection from: " + msg);
+    console.log("client log in with json: " + msg);
     userData = JSON.parse(msg);
     newClientObject = {
       socketID: socket.id,
@@ -116,14 +119,16 @@ io.on('connection', function (socket) {
       longitude: userData.longitude,
     }
 
-    console.log("NEW USER LOG IN: \n" + JSON.stringify(newClientObject));
+
+    console.log("NEW SOCKET CONNECTION: \n" + JSON.stringify(newClientObject));
+
     if(!checkIfUserIDAlreadyExists(newClientObject.userID))
     {
       clients.push(newClientObject);
     }
     else //if it already exists
     {
-      console.log("updating socket ID");
+      console.log(">>>UPDATING USER'S SOCKET ID");
       updateSocketIDFromUserID(newClientObject.userID, newClientObject.socketID);
     }
    
@@ -143,7 +148,9 @@ io.on('connection', function (socket) {
       messageObject.latitude = null;
 
       //send the message to the latest client
-      io.to(clients[clients.length - 1].socketID).emit('client receive message', JSON.stringify(messageObject));
+      //TODO : THIS IS INCORERECT: WE MUST SEND IT TO THE RIGHT SOCKET ID
+      //io.to(clients[clients.length - 1].socketID).emit('client receive message', JSON.stringify(messageObject));
+      io.to(newClientObject.socketID).emit('client receive message', JSON.stringify(messageObject));
     }
 
 
@@ -153,12 +160,17 @@ io.on('connection', function (socket) {
   socket.on('client send message', function (msg) {
 
     var messageObject = JSON.parse(msg); //convert the stringified object to an object
+    
+    //TODO: delete the following line eventually
+    console.log("User: " + messageObject.userID + ": \"" + messageObject.message + "\'");
 
+    
     //validate message
+    //TODO: Make these io.emits io.to the socketID of the offending user
     if (messageObject.longitude == 0 && messageObject.latitude == 0) //IF there isn't a location THEN deny their message
     {
       io.emit('server message', "You can't post without a location");
-      //return false;
+      return false;
     }
     else if (messageObject.userID == "") {
       io.emit('server message', "You can't post without a userID");
@@ -188,8 +200,7 @@ io.on('connection', function (socket) {
     messageObjectToSend.latitude = null;
     messageObjectToSend.longitude = null;
 
-    //emit a "chat message" with the data msg
-    //TODO ONLI EMIT TO NEARBY USERS
+    //create a JSON string we can emit
     messageString = JSON.stringify(messageObjectToSend);
 
     //for all clients, check which ones are nearby and send to them
@@ -197,7 +208,9 @@ io.on('connection', function (socket) {
     {
       if(coordinatesAreLessThanXMilesApart(clients[i].latitude, clients[i].longitude, messageObject.latitude, messageObject.longitude, numberOfMiles))
       {
-        io.emit('client receive message', messageString);
+        //TODO: eventually remove this line
+        console.log("Sending message -> UserID: " + clients[i].userID + " in range!");
+        io.to(clients[i].socketID).emit('client receive message', messageString);
       }
     }
 
