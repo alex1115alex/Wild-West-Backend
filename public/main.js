@@ -84,7 +84,7 @@ var longitude = "0";
         socket.emit('client log in', JSON.stringify(userData));
 
         //when the user clicks submit
-        $("form").submit(function () {
+        $("#sendButton").click(function () {
           var messageObj = {
             longitude: longitude,
             latitude: latitude,
