@@ -11,6 +11,7 @@ async function fetchCoordinates(){
       positionScrambler(latitude,longitude);
   } catch (error) {
       // Handle error
+      alert("FAILURE REEE");
       console.error(error);
   }
 };
