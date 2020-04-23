@@ -4,6 +4,7 @@ var longitude = "0";
     var cookie = "";
     var autoScrollingEnabled = true;
     
+    document.getElementById("m").placeholder = "Message";
 
     function checkAndGenerateCookie() {
       //IF the user has no cookie
@@ -22,13 +23,19 @@ var longitude = "0";
 
     function replyToMessage(messageIDToReplyTo, messageColor) {
       $("#" + messageIDToReplyTo).children("li").show();
-      document.getElementById("replyingTo").innerHTML = "@";
-      document.getElementById("replyingTo").style.background = "#" + messageColor;
+      //document.getElementById("replyingTo").innerHTML = "@";
+      document.getElementById("input").style.background = "#" + messageColor;
+      document.getElementById("m").placeholder = "Reply";
+      document.getElementById("cancelReplyDiv").style.display = "block";
+      document.getElementById("inputDiv").classList.replace("col-11", "col-10");
       parentID = messageIDToReplyTo;
     }
 
     function cancelReplyToMessage() {
-      document.getElementById("replyingTo").innerHTML = "";
+      document.getElementById("m").placeholder = "Message";
+      document.getElementById("input").style.background = "#6B979B";
+      document.getElementById("cancelReplyDiv").style.display = "none";
+      document.getElementById("inputDiv").classList.replace("col-10", "col-11");
       parentID = -1;
     }
 

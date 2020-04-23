@@ -169,11 +169,11 @@ io.on('connection', function (socket) {
     //TODO: Make these io.emits io.to the socketID of the offending user
     if (messageObject.longitude == 0 && messageObject.latitude == 0) //IF there isn't a location THEN deny their message
     {
-      io.emit('server message', "You can't post without a location");
+      io.to(getSocketIDFromUserID(messageObject.userID)).emit('server message', "You can't post without a location");
       return false;
     }
     else if (messageObject.userID == "") {
-      io.emit('server message', "You can't post without a userID");
+      //we should probably notify them but if they don't have a userID... whacha gonna do?
       return false;
     }
 

@@ -43,8 +43,10 @@
 
   <!-- This is the input area -->
   <div class="row" id="input">
-    <div class="col-1" id="replyingTo"></div>
-    <div class="col-10">
+    <div id="cancelReplyDiv" class="col-1">
+      <button id="cancelReplyButton" onclick="cancelReplyToMessage()" class="btn"><i id="cancelReplyToMessageIcon" class="far fa-window-close"></i></button>
+    </div>
+    <div id="inputDiv" class="col-11">
         <input onsubmit="return false;" type="textarea" class="form-control form-control-lg" id="m" autocomplete="off" />
     </div>
     <div class="col-1">
