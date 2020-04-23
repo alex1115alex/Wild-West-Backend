@@ -1,0 +1,15 @@
+1. Open psql
+2. CREATE USER postgres SUPERUSER;
+3. 
+createdb Wild-West
+4.
+CREATE TABLE posts(
+    lat decimal,
+ long decimal,
+  color TEXT,
+   user_id TEXT,
+    message_id INT,
+     parent_id INT,
+      message TEXT
+      );
+
