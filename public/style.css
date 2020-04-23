@@ -1,123 +1,127 @@
-
-      body {
-        background-color: #FFE5AE;
-      }
-  
-      #messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-  
-      #messages li {
-        padding: 5px 10px;
-        border-left: solid;
-      }
-  
-      #messages li:nth-child(odd) {
-        background: #eee;
-      }
-  
-      #messages {
-        margin-bottom: 40px;
-      }
-  
-      #messagesContainer {
-        border-color: #000;
-        border-top: solid;
-        width: 100vw;
-        height: 80vh;
-        overflow-y:auto;
-      }
-  
-      #input {
-        position:absolute;
-        bottom:0px;
-        margin-bottom: 0px;
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 100vw;
-        background-color: #6B979B;
-      }
-  
-    #m {
-        border-radius: 0px;
-        border: 1px solid #bcbdc0;
-    }
-
-#sendButton{
-    margin-left:auto;
-    margin-right:auto;
-    display:block;
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden
 }
 
-#cancelReplyButton{
-    margin-left:auto;
-   margin-right:auto;
-   display:block;
+body {
+  background-color: #FFE5AE;
 }
 
-#cancelReplyDiv{
-    display:none;
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-      #sendIcon{
-          font-size: xx-large;
-          margin: 0 auto;
-      }
+#messages li {
+  padding: 5px 10px;
+  border-left: solid;
+}
 
-      #cancelReplyToMessageIcon{
-          font-size: xx-large;
-          margin: 0 auto;
-      }
-  
-      .replyButton {
-        border: solid;
-      }
-  
-      .viewRepliesButton {
-        border: solid;
-      }
-  
-      #longitudeDiv,
-      #latitudeDiv {
-        display: none;
-      }
-  
-      #overlay {
-        background-color: #FFE5AE;
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        z-index: 200;
-      }
-  
-      .navbar-custom{
-        background-color: #FFF0CF;
-        color: #000;
-      }
-  
-      #splash {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-  
-      #splash img {
-        height: 40vh;
-        width: 40vh;
-      }
-  
-      #loadingInfo {
-        text-align: center;
-      }
-  
-      #navlogo{
-        height:30px;
-        width: 30px;
-      }
+#messages li:nth-child(odd) {
+  background: #eee;
+}
 
-      #helpInfo{
-          margin: 5%;
-      }
+#messages {
+  margin-bottom: 40px;
+}
+
+#messagesContainer {
+  border-color: #000;
+  border-top: solid;
+  width: 100vw;
+  height: 80vh;
+  overflow-y: auto;
+}
+
+#input {
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100vw;
+  background-color: #6B979B;
+}
+
+#m {
+  border-radius: 0px;
+  border: 1px solid #bcbdc0;
+}
+
+#sendButton {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#cancelReplyButton {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#cancelReplyDiv {
+  display: none;
+}
+
+#sendIcon {
+  font-size: xx-large;
+  margin: 0 auto;
+}
+
+#cancelReplyToMessageIcon {
+  font-size: xx-large;
+  margin: 0 auto;
+}
+
+.replyButton {
+  border: solid;
+}
+
+.viewRepliesButton {
+  border: solid;
+}
+
+#longitudeDiv, #latitudeDiv {
+  display: none;
+}
+
+#overlay {
+  background-color: #FFE5AE;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 200;
+}
+
+.navbar-custom {
+  background-color: #FFF0CF;
+  color: #000;
+}
+
+#splash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#splash img {
+  height: 40vh;
+  width: 40vh;
+}
+
+#loadingInfo {
+  text-align: center;
+}
+
+#navlogo {
+  height: 30px;
+  width: 30px;
+}
+
+#helpInfo {
+  margin: 5%;
+}
