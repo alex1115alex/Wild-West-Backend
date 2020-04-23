@@ -24,6 +24,7 @@ var testQuery = "SELECT * FROM posts;";
 const { Client } = require('pg');
 const client = new Client({
     host: 'localhost',
+    user: 'postgres',
     database: 'Wild-West',
     password: 'WildWest',
 });
