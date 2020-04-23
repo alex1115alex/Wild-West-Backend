@@ -7,17 +7,78 @@ var port = process.env.PORT || 8080;
 
 var startupMessage = "Wild West server has started...";
 
-var clients = []; //List of socket connections. Used to update new users on recent chats
-var messageArr = []; //List of messags objects
-var threadArr = []; //list of thread objects
+//List of socket connections. Used to update new users on recent chats
+var clients = []; 
+
+//we're keeping track of the current number of messages with a variable now because
+//it's inefficient to query each time...
+//(also there's an async related bug when calling the query I don't know how to fix otherwise)
+var currentNumberOfMessages = 0;
 
 var numberOfMiles = 200;
+
+//test query
+var testQuery = "SELECT * FROM posts;";
+
+//set up database
+const { Client } = require('pg');
+const client = new Client({
+    host: 'localhost',
+    database: 'Wild-West',
+    password: 'WildWest',
+});
+client.connect();
+
+//sets the number of posts in the table to the variable
+function getNumberOfPostsInTable(){
+  query = "SELECT COUNT(*) FROM posts;";
+  client.query(query, (err, res) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log("Number of posts in table: " + res.rows[0].count);
+    currentNumberOfMessages = res.rows[0].count;
+    return(res.rows[0].count);
+  });
+}
+
+getNumberOfPostsInTable();
 
 app.use(express.static(__dirname + "/public"));
 
 io.on('connection', function (socket) {
 
   
+
+  //adds a post to the table
+  function addPostToTable(lat, long, color, userID, messageID, parentID, message){
+    query = `INSERT INTO posts (lat, long, color, user_id, message_id, parent_id, message) 
+    VALUES
+    (
+        ${lat},
+        ${long},
+        '${color}',
+        '${userID}',
+        ${messageID},
+        ${parentID},
+        '${message}'
+    );`;
+
+    client.query(query, (err, res) => {
+      if (err) {       
+          console.error(err);
+          return;
+      }
+      for (let row of res.rows) {
+          console.log(row);
+      }
+    });
+  }  
+
+  function addPostToTableFromMessageObject(newMessageObject){
+    addPostToTable(newMessageObject.latitude, newMessageObject.longitude, newMessageObject.color, newMessageObject.userID, newMessageObject.messageID, newMessageObject.parentID, newMessageObject.message);
+  }
 
   //returns true if the message is valid
   function isValidMessage(message) {
@@ -104,12 +165,8 @@ io.on('connection', function (socket) {
     return false;
   }
 
-  //push the socket's ID to the clients array
-  //clients.push(socket.id);
-
   //when the client logs in
   socket.on('client log in', function (msg) {
-
     console.log("client log in with json: " + msg);
     userData = JSON.parse(msg);
     newClientObject = {
@@ -118,7 +175,6 @@ io.on('connection', function (socket) {
       latitude: userData.latitude,
       longitude: userData.longitude,
     }
-
 
     console.log("NEW SOCKET CONNECTION: \n" + JSON.stringify(newClientObject));
 
@@ -132,28 +188,34 @@ io.on('connection', function (socket) {
       updateSocketIDFromUserID(newClientObject.userID, newClientObject.socketID);
     }
    
-
-    //on connect, send all the messages in memory to the client
-    for (var i = 0; i < messageArr.length; i++) {
-      
-      //check if message is nearby
-      if(!coordinatesAreLessThanXMilesApart(newClientObject.latitude, newClientObject.longitude, messageArr[i].latitude, messageArr[i].longitude, numberOfMiles)){
-        continue;
+    //on connect, send all the messages in the database to the client
+    query = "SELECT * FROM posts;";
+    client.query(query, (err, res) => {
+      if (err) {
+          console.error(err);
+          return;
       }
+      for (i = 0; i < res.rows.length; i++) {
+          console.log(res.rows[i]);
+          if(!coordinatesAreLessThanXMilesApart(newClientObject.latitude, newClientObject.longitude, res.rows[i].lat, res.rows[i].long, numberOfMiles)){
+            continue;
+          }
 
-      //STRIP MESSAGES OF LOCATION/USERID
-      var messageObject = { ...messageArr[i]};
-      messageObject.userID = null;
-      messageObject.longitude = null;
-      messageObject.latitude = null;
+          //CREATE A NEW MESSAGEOBJECT TO SEND OUT, BUT STRIP IT OF LOCATION/USERID
+          var messageObject = {
+            latitude: null,
+            longitude: null,
+            color: res.rows[i].color,
+            userID: null,
+            messageID: res.rows[i].message_id,
+            parentID:  res.rows[i].parent_id,
+            message: res.rows[i].message
+          };
 
-      //send the message to the latest client
-      //TODO : THIS IS INCORERECT: WE MUST SEND IT TO THE RIGHT SOCKET ID
-      //io.to(clients[clients.length - 1].socketID).emit('client receive message', JSON.stringify(messageObject));
-      io.to(newClientObject.socketID).emit('client receive message', JSON.stringify(messageObject));
-    }
-
-
+          //send the message to the new client
+          io.to(newClientObject.socketID).emit('client receive message', JSON.stringify(messageObject));
+      }
+    });
   });
 
   //when the server recieves a "chat message"
@@ -163,10 +225,8 @@ io.on('connection', function (socket) {
     
     //TODO: delete the following line eventually
     console.log("User: " + messageObject.userID + ": \"" + messageObject.message + "\'");
-
     
     //validate message
-    //TODO: Make these io.emits io.to the socketID of the offending user
     if (messageObject.longitude == 0 && messageObject.latitude == 0) //IF there isn't a location THEN deny their message
     {
       io.to(getSocketIDFromUserID(messageObject.userID)).emit('server message', "You can't post without a location");
@@ -189,10 +249,13 @@ io.on('connection', function (socket) {
     messageObject.color = colorFromUserID.stringToRGB(colorFromUserID.hashCode(messageObject.userID));
 
     //set the messageID
-    messageObject.messageID = "message" + messageArr.length;
+    messageObject.messageID = currentNumberOfMessages;
 
-    //add the message's data to the array
-    messageArr.push(messageObject);
+    //add the message to the database
+    addPostToTableFromMessageObject(messageObject);
+
+    //increment the number of messages
+    currentNumberOfMessages++;
 
     //STRIP THE MESSAGEOBJECT OF IT'S LOCATION/USERID BEFORE EMITTING
     var messageObjectToSend = { ...messageObject};
