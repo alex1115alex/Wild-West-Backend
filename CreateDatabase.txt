@@ -1,8 +1,14 @@
-1. Open psql
-2. CREATE USER postgres SUPERUSER;
+1. 
+Open psql
+2. 
+CREATE USER postgres SUPERUSER;
 3. 
 createdb Wild-West
 4.
+\c Wild-West
+5.
+\password (set the password to "WildWest")
+6.
 CREATE TABLE posts(
     lat decimal,
  long decimal,
