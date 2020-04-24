@@ -1,0 +1,50 @@
+/* Navbar */
+.navbar-default {
+	background-color: #136917;
+}
+
+/*Creates a nice looking scrollbar*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/*Defined Class, White*/
+.navbar-writing{
+	color: #FFFFFF;
+}
+
+/*Bootstrap class, editing to our colors*/
+.btn-success {
+  background-color: #75B247;
+}
+
+/*Bootstrap class, editing to our colors*/
+.btn-outline-success {
+  border: 1px solid #75B247;
+  background-color: white;
+}
+
+/*Adds a background image to the login page*/
+#loginBody {
+  background-image: url('../');
+}
+
+/*Adds a background image to the register page*/
+#registerBody {
+  background-image: url('../');
+}
+
+/*Makes the line a little more apparent against the black and white image*/
+hr {
+  border: 1.3px solid black;
+}
