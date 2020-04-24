@@ -17,6 +17,7 @@ body {
 #messages li {
   padding: 5px 10px;
   border-left: solid;
+  word-wrap:break-word;
 }
 
 #messages li:nth-child(odd) {
