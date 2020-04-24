@@ -18,6 +18,7 @@ body {
   padding: 5px 10px;
   border-left: solid;
   word-wrap:break-word;
+  width: 100%;
 }
 
 #messages li:nth-child(odd) {
@@ -26,6 +27,7 @@ body {
 
 #messages {
   margin-bottom: 0px;
+  width: 100vw;
 }
 
 #messagesContainer {
