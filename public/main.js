@@ -97,6 +97,7 @@ var longitude = "0";
             longitude: longitude,
             latitude: latitude,
             color: "",
+            emoji: "",
             userID: cookie,
             messageID: "",
             parentID: parentID,
@@ -128,9 +129,9 @@ var longitude = "0";
 
           //create div and li
           var liNode = $(
-            "<li id=" + newMessageObject.messageID + "><div style='background-color:#" +
+            "<li id=" + newMessageObject.messageID + "><div class='messageImageDiv' style='background-color:#" +
             newMessageObject.color +
-            ";height:40px;width:40px'></div>" + newMessageObject.message +
+            ";height:40px;width:40px'><div class='messageEmojiDiv'>" + newMessageObject.emoji + "</div></div>" + newMessageObject.message +
             "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\", \"" + newMessageObject.color + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
           );
 

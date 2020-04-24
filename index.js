@@ -25,9 +25,6 @@ var testQuery = "SELECT * FROM posts;";
 //setup emoji array
 var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
 
-console.log(emojiFromUserID.stringToEmoji(emojiArr, "poop"));
-
-
 //set up database
 const { Client } = require('pg');
 const client = new Client({
@@ -61,13 +58,14 @@ io.on('connection', function (socket) {
   
 
   //adds a post to the table
-  function addPostToTable(lat, long, color, userID, messageID, parentID, message){
-    query = `INSERT INTO posts (lat, long, color, user_id, message_id, parent_id, message) 
+  function addPostToTable(lat, long, color, emoji, userID, messageID, parentID, message){
+    query = `INSERT INTO posts (lat, long, color, emoji, user_id, message_id, parent_id, message) 
     VALUES
     (
         ${lat},
         ${long},
         '${color}',
+        '${emoji}',
         '${userID}',
         ${messageID},
         ${parentID},
@@ -86,7 +84,7 @@ io.on('connection', function (socket) {
   }  
 
   function addPostToTableFromMessageObject(newMessageObject){
-    addPostToTable(newMessageObject.latitude, newMessageObject.longitude, newMessageObject.color, newMessageObject.userID, newMessageObject.messageID, newMessageObject.parentID, newMessageObject.message);
+    addPostToTable(newMessageObject.latitude, newMessageObject.longitude, newMessageObject.color, newMessageObject.emoji, newMessageObject.userID, newMessageObject.messageID, newMessageObject.parentID, newMessageObject.message);
   }
 
   //returns true if the message is valid
@@ -215,6 +213,7 @@ io.on('connection', function (socket) {
             latitude: null,
             longitude: null,
             color: res.rows[i].color,
+            emoji: res.rows[i].emoji,
             userID: null,
             messageID: res.rows[i].message_id,
             parentID:  res.rows[i].parent_id,
@@ -256,6 +255,9 @@ io.on('connection', function (socket) {
 
     //set the message's color
     messageObject.color = colorFromUserID.stringToRGB(colorFromUserID.hashCode(messageObject.userID));
+
+    //set the message's emoji
+    messageObject.emoji = emojiFromUserID.stringToEmoji(emojiArr, messageObject.userID);
 
     //set the messageID
     messageObject.messageID = currentNumberOfMessages;
