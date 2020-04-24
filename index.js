@@ -16,8 +16,8 @@ var clients = [];
 //(also there's an async related bug when calling the query I don't know how to fix otherwise)
 var currentNumberOfMessages = 0;
 
-//currently the range
-var numberOfMiles = 200;
+//currently the range. Super big so everyone can see everyone's posts (for now)!
+var numberOfMiles = 9999;
 
 //test query
 var testQuery = "SELECT * FROM posts;";
