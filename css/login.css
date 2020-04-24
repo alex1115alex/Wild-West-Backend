@@ -1,6 +1,6 @@
 /* Navbar */
 .navbar-default {
-	background-color: #136917;
+	background-color: #FFE5AE;
 }
 
 /*Creates a nice looking scrollbar*/
@@ -25,12 +25,12 @@
 
 /*Bootstrap class, editing to our colors*/
 .btn-success {
-  background-color: #75B247;
+  background-color: #FFE5AE;
 }
 
 /*Bootstrap class, editing to our colors*/
 .btn-outline-success {
-  border: 1px solid #75B247;
+  border: 1px solid #FFE5AE;
   background-color: white;
 }
 
