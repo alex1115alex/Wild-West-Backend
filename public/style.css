@@ -125,3 +125,15 @@ body {
 #helpInfo {
   margin: 5%;
 }
+
+.messageImageDiv{
+  border-radius: 99px;
+  border: solid 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.messageEmojiDiv{
+  
+}
