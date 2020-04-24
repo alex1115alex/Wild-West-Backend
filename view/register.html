@@ -1,0 +1,111 @@
+<!--The register page-->
+<html>
+	<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!--Shares a stylesheet with the login page-->
+    <link href="../resources/css/login.css" rel="stylesheet">
+    <!--Links to the javascript functions-->
+    <script type="text/javascript" src="../resources/scripts/register.js"></script>
+    <title>WildWest Register</title>
+		<link rel='icon' href='../resources/img/tabIcon.png' type='image/x-icon'/>
+ </head>
+
+
+<body id = "registerBody">
+
+<!--Our navbar - for the register page, it contains links to the 'Home' and 'Login' pages-->
+    <nav class="navbar navbar-default navbar-expand-lg">
+  	  <a class="navbar-brand" href="home.html"></a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+  		<span class="navbar-toggler-icon"></span>
+  	  </button>
+
+      <div class="collapse navbar-collapse" id="navbarText">
+
+      <ul class="navbar-nav mr-auto">
+  		  <li class="nav-item active">
+  			<a class="nav-link navbar-writing" href="home.html">Home</a>
+  		  </li>
+  		</ul>
+
+      <div class="form-inline my-2 my-lg-0">
+  						<a class="nav-link navbar-writing" href="login.html">Login</a>
+  		</div>
+
+      </div>
+  	</nav>
+
+  <!--This is where the card with all registration information is held-->
+  <div class="container">
+	<br>
+    <h1 class="Display-3 text-center"><b>WildWest</b></h1>
+	  <hr>
+	<div class="row justify-content-center">
+	<div class="col-md-6">
+	<div class="card">
+
+  <header class="card-header">
+	<a href="login.html" class="float-right btn btn-outline-success mt-1">Login</a>
+	<h4 class="card-title mt-2 text-center">Register</h4>
+
+  </header>
+	<article class="card-body">
+
+  <!--The form to collect registration inforamtion-->
+  <form>
+
+    
+
+    <!--The 'Email' field of the form | Has functions to check for valdiity and possibly enable button-->
+    <div class="form-row">
+  		<div class="col form-group">
+  		<label class="text-center"> Email </label>
+  		  <input type="email" id="email" class="form-control" placeholder="Enter your email here." onblur = "checkEmail(); enableButton();">
+          <small id="emailHelpBlock" class="form-text text-muted"></small>
+  		</div>
+  </div>
+
+    <!--The 'Username' field of the form | Has functions to check for valdiity and possibly enable button-->
+    <div class="form-row">
+  		<div class="col form-group">
+  		<label class="text-center"> Username </label>
+  		  <input type="text" id="usernameRegister" class="form-control" placeholder="Enter a username here." onblur="checkUsername(); enableButton();">
+          <small id="usernameHelpBlock" class="form-text text-muted"></small>
+  		</div>
+  	</div>
+
+    <!--The 'Password' field of the form | Has functions to check for valdiity and possibly enable button-->
+  	<div class="form-group">
+  		<label>Password</label>
+  		<input type="password" id="passwordRegister" class="form-control" placeholder="Create a secure password." onblur = "checkPassword(); enableButton();">
+      <small id="passwordHelpBlock" class="form-text text-muted">
+        Password must be at least 8 characters long and contain one uppercase, one lowercase, one number, and one special character.
+      </small>
+  	</div>
+
+    <!--The 'Confirm Password' field of the form | Has functions to check for valdiity and possibly enable button-->
+    <div class="form-group">
+      <label>Confirm Password</label>
+        <input type="password" id="passwordConfirm" class="form-control" placeholder="Re-type your password." onblur = "confirmPassword(); enableButton();">
+          <small id="confirmHelpBlock" class="form-text text-muted"></small>
+    </div>
+
+    <!--The 'Register Your Account' button of the form | Only enabled when all forms are valid-->
+		<!--'formaction' sends the user to the quiz after registering-->
+   <div class="form-group">
+        <button type="submit" id = "submitButton" class="btn btn-success btn-block" disabled formaction="quiz.html">Register Your Account</button>
+    </div>
+
+  </form>
+
+  </div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</body>
+
+
+</html>
