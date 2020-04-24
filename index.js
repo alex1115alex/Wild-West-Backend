@@ -1,10 +1,11 @@
 var colorFromUserID = require("./colorFromUserID.js");
+var emojiFromUserID = require("./emojiFromUserID.js");
 const express = require("express");
 const app = express();
 var http = require('http').Server(app);
+var fs = require('fs');
 var io = require('socket.io')(http);
 var port = process.env.PORT || 8080;
-
 var startupMessage = "Wild West server has started...";
 
 //List of socket connections. Used to update new users on recent chats
@@ -15,10 +16,17 @@ var clients = [];
 //(also there's an async related bug when calling the query I don't know how to fix otherwise)
 var currentNumberOfMessages = 0;
 
+//currently the range
 var numberOfMiles = 200;
 
 //test query
 var testQuery = "SELECT * FROM posts;";
+
+//setup emoji array
+var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
+
+console.log(emojiFromUserID.stringToEmoji(emojiArr, "poop"));
+
 
 //set up database
 const { Client } = require('pg');
