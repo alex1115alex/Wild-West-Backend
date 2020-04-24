@@ -1,0 +1,83 @@
+<!-- login page-->
+<html>
+	<head>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+ 		<link href="../css/login.css" rel="stylesheet">
+		<script type="text/javascript" src="../js/login.js"></script>
+		<title>WildWest Login</title>
+		<link rel='icon' href='../img/' type='image/x-icon'/>
+ </head>
+	<body id = "loginBody">
+
+		<!--The navbar for the login page | Contains links to 'home' and 'register' pages-->
+		<nav class="navbar navbar-default navbar-expand-lg">
+		  <a class="navbar-brand" href="home.html"></a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item active">
+				<a class="nav-link navbar-writing" href="home.html">Home</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link navbar-writing" href="register.html">Register <span class="sr-only">(current)</span></a>
+			  </li>
+		  </div>
+		</nav>
+
+  <!--This marks the beginning of login card content-->
+	<div class="container">
+
+	<br>
+
+	<h1 class="Display-3 text-center"><b>WildWest</b></h1>
+
+	<hr>
+
+	<div class="row justify-content-center">
+	<div class="col-md-6">
+	<div class="card">
+
+	<header class="card-header">
+		<a href="register.html" class="float-right btn btn-outline-success mt-1">Register</a>
+		<h4 class="card-title mt-2 text-center">Sign in</h4>
+	</header>
+
+	<article class="card-body">
+
+	<!--The form to retrieve login information-->
+	<form>
+
+  <!--The 'Username' field of the form | Has a function to check whether or not to enable button-->
+	<div class="form-row">
+		<div class="col form-group">
+			<label class="text-center"> Username </label>
+			<input type="text" id="usernameLogin" class="form-control" placeholder="Enter your username." onkeyup = "enableButton()">
+		</div>
+	</div>
+
+	<!--The 'Password' field of the form | Has a function to check whether or not to enable button-->
+	<div class="form-group">
+		<label>Password</label>
+		<input type="password" id="passwordLogin" class="form-control" placeholder="Enter your password." onkeyup = "enableButton()">
+	</div>
+
+	<!--The 'Sign in' button of the form | Only enabled when both username and password have been filled-->
+	<!--'formaction' sends the user to take a quiz after signing in-->
+	 <div class="form-group">
+        <button type="submit" id = "signInButton" class="btn btn-success btn-block" disabled formaction="quiz.html"> Sign in </button>
+    </div>
+
+	</form>
+
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</body>
+
+
+</html>
