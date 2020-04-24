@@ -52,9 +52,15 @@ body {
   border: 1px solid #bcbdc0;
 }
 
+#inputdiv{
+  padding: 0px;
+  margin: 0px;
+}
+
 #sendButton {
   margin-left: 0px;
   margin-right: 0px;
+  padding-left: 0px;
   display: block;
 }
 
