@@ -27,7 +27,7 @@ var longitude = "0";
       document.getElementById("input").style.background = "#" + messageColor;
       document.getElementById("m").placeholder = "Reply";
       document.getElementById("cancelReplyDiv").style.display = "block";
-      document.getElementById("inputDiv").classList.replace("col-11", "col-10");
+      document.getElementById("inputDiv").classList.replace("col-10", "col-8");
       parentID = messageIDToReplyTo;
     }
 
@@ -35,7 +35,7 @@ var longitude = "0";
       document.getElementById("m").placeholder = "Message";
       document.getElementById("input").style.background = "#6B979B";
       document.getElementById("cancelReplyDiv").style.display = "none";
-      document.getElementById("inputDiv").classList.replace("col-10", "col-11");
+      document.getElementById("inputDiv").classList.replace("col-8", "col-10");
     //document.getElementById("cancelReplyDiv").classList("col-1")
       parentID = -1;
     }
