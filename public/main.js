@@ -36,6 +36,7 @@ var longitude = "0";
       document.getElementById("input").style.background = "#6B979B";
       document.getElementById("cancelReplyDiv").style.display = "none";
       document.getElementById("inputDiv").classList.replace("col-10", "col-11");
+    //document.getElementById("cancelReplyDiv").classList("col-1")
       parentID = -1;
     }
 

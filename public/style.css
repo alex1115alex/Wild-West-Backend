@@ -24,7 +24,7 @@ body {
 }
 
 #messages {
-  margin-bottom: 40px;
+  margin-bottom: 0px;
 }
 
 #messagesContainer {
@@ -39,20 +39,22 @@ body {
   position: absolute;
   bottom: 0px;
   margin-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
   width: 100vw;
   background-color: #6B979B;
 }
 
 #m {
   border-radius: 0px;
+  height:100%;
+  width: 100%;
   border: 1px solid #bcbdc0;
 }
 
 #sendButton {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0px;
+  margin-right: 0px;
   display: block;
 }
 
