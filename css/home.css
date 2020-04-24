@@ -1,0 +1,110 @@
+/*Hides the horizontal scrollbar*/
+html{
+	overflow-x: hidden;
+}
+
+/* Style all social media icons */
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Add a hover effect*/
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+
+.fa-reddit {
+  background: #ff5700;
+  color: white;
+}
+
+/*Creates a nice looking scrollbar*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* Navbar*/
+.navbar-default{
+	background-color: #136917;
+}
+
+/*Defined Class, White*/
+.navbar-writing{
+	color: #FFFFFF;
+}
+
+/*Defined Class, Blue */
+.blue-color{
+	background-color: #6F80FF;
+}
+
+/*Defined Class, Green*/
+.green-color{
+	background-color: #75B247;
+}
+/*Defined Class, cream */
+.cream-color{
+	color: #F5F7DF;
+}
+
+/* Hero  */
+.header-img {
+	width: 100%;
+	background:url('../');
+	height:500px;
+	background-position: center;
+	background-size: cover;
+}
+
+/* Content Grid */
+.grid-label {
+	padding-top: 50px;
+}
+
+/*Defined Class, creates grey box around text sections */
+.row {
+	text-align: center;
+}
+
+/*Defined Class, alligns writing in paragraphs to left */
+.txt-align {
+	text-align: left;
+	margin-right: 20%;
+}
+
+.footer {
+	background-color: #136917;
+}
