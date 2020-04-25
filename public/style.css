@@ -32,7 +32,7 @@ body {
   border-color: #000;
   border-top: solid;
   width: 100vw;
-  height: 80vh;
+  height: calc(100vh - (48.5227px + 57.7273px));
   overflow-y: auto;
 }
 
@@ -112,6 +112,7 @@ body {
 .navbar-custom {
   background-color: #FFF0CF;
   color: #000;
+  background-image: url("./wild_west_banner_trans.png");
 }
 
 #splash {
@@ -134,6 +135,8 @@ body {
   height: 30px;
   width: 30px;
 }
+
+
 
 #helpInfo {
   margin: 5%;
