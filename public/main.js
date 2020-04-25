@@ -21,6 +21,10 @@ function checkAndGenerateCookie() {
   cookie = getCookie("userID"); //set cookie variable
 }
 
+function fixMessagesContainerMargin(){
+  $("#messagesContainer").css('margin-bottom', $("#input").height() + 'px');
+}
+
 function replyToMessage(messageIDToReplyTo, messageColor) {
   $("#" + messageIDToReplyTo).children("li").show();
   //document.getElementById("replyingTo").innerHTML = "@";
@@ -79,9 +83,13 @@ function getRandomPostColor() {
 //check and generate cookie if it doesn't exist
 checkAndGenerateCookie();
 
+
+
 //get our coordinates. This function calls to the position scrambler function which then calls back to "connectToServer()"
 fetchCoordinates();
 
+//update the height of the messagesContainer
+fixMessagesContainerMargin();
 
 function connectToServer() {
 

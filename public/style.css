@@ -6,6 +6,8 @@ html, body {
 
 body {
   background-color: #FFE5AE;
+  display: flex;
+  flex-direction: column;
 }
 
 #messages {
@@ -32,8 +34,9 @@ body {
   border-color: #000;
   border-top: solid;
   width: 100vw;
-  height: calc(100vh - (48.5227px + 57.7273px));
-  overflow-y: auto;
+  /*height: calc(100vh - (48.5227px + 57.7273px));*/
+  flex:auto;
+  overflow-y: scroll;
 }
 
 #input {
@@ -46,6 +49,7 @@ body {
   margin-left: 0px;
   margin-right: 0px;
   background-color: #6B979B;
+  flex: none;
 }
 
 #m {
@@ -112,7 +116,12 @@ body {
 .navbar-custom {
   background-color: #FFF0CF;
   color: #000;
+  flex: none;
   background-image: url("./wild_west_banner_trans.png");
+}
+
+#navbar{
+  flex:none;
 }
 
 #splash {

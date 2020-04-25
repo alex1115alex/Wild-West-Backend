@@ -92,6 +92,11 @@ io.on('connection', function (socket) {
     if (message == "" || message.trim() == "") {
       return false;
     }
+
+    if(message.length > 30000){
+      return false;
+    }
+
     return true;
   }
 
