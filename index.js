@@ -235,7 +235,7 @@ io.on('connection', function (socket) {
   socket.on('client send message', function (msg) {
 
     var messageObject = JSON.parse(msg); //convert the stringified object to an object
-    
+    console.log(msg);
     //TODO: delete the following line eventually
     console.log("User: " + messageObject.userID + ": \"" + messageObject.message + "\'");
     

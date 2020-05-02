@@ -3,6 +3,10 @@ var latitude = "0";
 var parentID = -1; //-1 is the default value if it's a new "thread"/doesn't have a parent/isn't a reply
 var cookie = "";
 var autoScrollingEnabled = true;
+var colorRange1 = "#FFE5AE";
+var colorRange2 = "#FFF8EA";
+colorRange1 = "#E6C195";
+colorRange2 = "F2DEC1";
 
 document.getElementById("m").placeholder = "New thread...";
 hideInputBar();
@@ -25,6 +29,50 @@ function checkAndGenerateCookie() {
 
 function fixMessagesContainerMargin(){
   $("#messagesContainer").css('margin-bottom', $("#input").height() + 'px');
+}
+
+function returnTrueIfLight(color) {
+
+  // Variables for red, green, blue values
+  var r, g, b, hsp;
+  
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+
+      // If HEX --> store the red, green, blue values in separate variables
+      color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+      
+      r = color[1];
+      g = color[2];
+      b = color[3];
+  } 
+  else {
+      
+      // If RGB --> Convert it to HEX: http://gist.github.com/983661
+      color = +("0x" + color.slice(1).replace( 
+      color.length < 5 && /./g, '$&$&'));
+
+      r = color >> 16;
+      g = color >> 8 & 255;
+      b = color & 255;
+  }
+  
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(
+  0.299 * (r * r) +
+  0.587 * (g * g) +
+  0.114 * (b * b)
+  );
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp>127.5) {
+
+      return true;
+  } 
+  else {
+
+      return false;
+  }
 }
 
 function unfixMessagesContainerMargin(){
@@ -53,7 +101,8 @@ function toggleInputBar(){
 
 function createThread(){
   document.getElementById("input").style.background = "#6B979B";
-  document.getElementById("m").style.background = "#D2E3E5";
+  document.getElementById("m").style.background = "#6B979B";
+  document.getElementById("m").style.color = "#fff";
   document.getElementById("m").placeholder = "New thread...";
   parentID = -1;
   showInputBar();
@@ -69,6 +118,18 @@ function replyToMessage(messageIDToReplyTo, messageColor) {
   document.getElementById("input").style.background = "#" + messageColor;
   document.getElementById("m").style.background = "#" + messageColor;
   document.getElementById("m").placeholder = "Reply...";
+  
+  //make input text color white/black depending on background color
+  if(returnTrueIfLight(messageColor))
+  {
+    console.log("COLOR IS LIGHT");
+    document.getElementById("m").style.color = "#000";
+  }
+  else
+  {
+    document.getElementById("m").style.color = "#fff";
+  }
+
   parentID = messageIDToReplyTo;
   showInputBar();
   document.getElementById("m").focus();
@@ -108,8 +169,8 @@ function rgb(string) {
 }
 
 function getRandomPostColor() {
-  var rgb1 = rgb("#FFE5AE");
-  var rgb2 = rgb("#FFF8EA");
+  var rgb1 = rgb(colorRange1);
+  var rgb2 = rgb(colorRange2);
   var rgb3 = [];
   for (var i = 0; i < 3; i++) rgb3[i] = rgb1[i] + Math.random() * (rgb2[i] - rgb1[i]) | 0;
   var newColor = '#' + rgb3
@@ -117,6 +178,29 @@ function getRandomPostColor() {
     .map(function (s) { return "00".slice(s.length) + s }).join('');
   return newColor;
 }
+/*
+function FitToContent(id, maxHeight)
+{
+   var text = id && id.style ? id : document.getElementById(id);
+   if ( !text )
+      return;
+
+   var adjustedHeight = text.clientHeight;
+   if ( !maxHeight || maxHeight > adjustedHeight )
+   {
+      adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
+      if ( maxHeight )
+         adjustedHeight = Math.min(maxHeight, adjustedHeight);
+      if ( adjustedHeight > text.clientHeight )
+         text.style.height = adjustedHeight + "px";
+   }
+}
+
+window.onload = function() {
+    document.getElementById("m").onkeyup = function() {
+      FitToContent( this, 4 )
+    };
+}*/
 
 //check and generate cookie if it doesn't exist
 checkAndGenerateCookie();

@@ -33,9 +33,12 @@ body {
 #messagesContainer {
   border-color: #000;
   border-top: solid;
-  width: 100vw;
+  width: 100%;
   flex:auto;
+  margin-left:5px;
+  margin-right:5px;
   overflow-y: scroll;
+  background-color: #FFE5AE;
 }
 
 #input {
@@ -44,6 +47,7 @@ body {
   margin-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
+  
   width:100%;
   margin-left: 0px;
   margin-right: 0px;
@@ -55,9 +59,18 @@ body {
   border-radius: 0px;
   height:100%;
   width: 100%;
+  max-height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* disable input box scrollbar Firefox */
+  -ms-overflow-style: none;  /* disable input box scrollbar IE 10+ */
   background-color: #D2E3E5;
   outline: none;
   box-shadow: none;
+}
+
+/* disable input box scrollbar chome */
+#m::-webkit-scrollbar {
+  display: none;
 }
 
 #inputdiv{
