@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <head>
   <title>Wild West</title>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -24,16 +25,16 @@
 
   <nav id="navbar" class="navbar navbar-expand-lg navbar-custom">
     <a class="navbar-brand" href="#"><img id="navlogo" src="wild_west_logo_trans.png"> Wild West</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          
-        </li>
-      </ul>
-    </div>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button type="button" class="btn btn-info" onclick="createThread()"><i class="fas fa-plus"></i></button>
+      </li>
+    </ul>
   </nav>
 
   <!-- This is the box that contains all the messages -->
@@ -42,19 +43,21 @@
   </div>
 
   <!-- This is the input area -->
-  <div class="row" id="input">
-    <div id="cancelReplyDiv" class="col-2">
-      <button id="cancelReplyButton" onclick="cancelReplyToMessage()" class="btn"><i id="cancelReplyToMessageIcon" class="far fa-window-close"></i></button>
+  <div class="row row-no-gutters" id="input">
+    <div id="cancelReplyDiv" class="col-2 col-md-1">
+      <button id="cancelReplyButton" onclick="cancelInput()" class="btn btn-block"><i id="cancelReplyToMessageIcon"
+          class="fas fa-window-close"></i></button>
     </div>
-    <div id="inputDiv" class="col-10">
-        <input onsubmit="return false;" type="textarea" maxlength="30000" class="form-control form-control-lg" id="m" autocomplete="off" />
+    <div id="inputDiv" class="col-8 col-md-10">
+      <input onsubmit="return false;" type="textarea" maxlength="30000" class="form-control form-control-lg" id="m"
+        autocomplete="off" />
     </div>
-    <div class="col-2">
-      <button id="sendButton" class="btn"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
+    <div class="col-2 col-md-1">
+      <button id="sendButton" class="btn btn-block"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 
-
+  <!-- I'm not sure who put this here... I'm not sure what it does but I'll leave it as to not break anything...-->
   <div id="locationOutput">
 
   </div>
@@ -67,7 +70,7 @@
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
   <script src="main.js"></script>
-    
+
 </body>
 
 </html>

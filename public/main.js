@@ -4,7 +4,9 @@ var parentID = -1; //-1 is the default value if it's a new "thread"/doesn't have
 var cookie = "";
 var autoScrollingEnabled = true;
 
-document.getElementById("m").placeholder = "Message";
+document.getElementById("m").placeholder = "New thread...";
+hideInputBar();
+
 
 function checkAndGenerateCookie() {
   //IF the user has no cookie
@@ -25,22 +27,58 @@ function fixMessagesContainerMargin(){
   $("#messagesContainer").css('margin-bottom', $("#input").height() + 'px');
 }
 
-function replyToMessage(messageIDToReplyTo, messageColor) {
-  $("#" + messageIDToReplyTo).children("li").show();
-  //document.getElementById("replyingTo").innerHTML = "@";
-  document.getElementById("input").style.background = "#" + messageColor;
-  document.getElementById("m").placeholder = "Reply";
-  document.getElementById("cancelReplyDiv").style.display = "block";
-  document.getElementById("inputDiv").classList.replace("col-10", "col-8");
-  parentID = messageIDToReplyTo;
+function unfixMessagesContainerMargin(){
+  $("#messagesContainer").css('margin-bottom', '0px');
 }
 
+function hideInputBar(){
+  $("#input").hide();
+  unfixMessagesContainerMargin();
+} 
+
+function showInputBar(){
+  $("#input").show();
+  fixMessagesContainerMargin();
+}
+
+function toggleInputBar(){
+  if($("#input").is(":visible")){
+    $("#input").hide();
+  } 
+  else
+  {
+    $("#input").show();
+  }
+}
+
+function createThread(){
+  document.getElementById("input").style.background = "#6B979B";
+  document.getElementById("m").style.background = "#D2E3E5";
+  document.getElementById("m").placeholder = "New thread...";
+  parentID = -1;
+  showInputBar();
+  document.getElementById("m").focus();
+}
+
+function cancelInput(){
+  hideInputBar();
+}
+
+function replyToMessage(messageIDToReplyTo, messageColor) {
+  $("#" + messageIDToReplyTo).children("li").show();
+  document.getElementById("input").style.background = "#" + messageColor;
+  document.getElementById("m").style.background = "#" + messageColor;
+  document.getElementById("m").placeholder = "Reply...";
+  parentID = messageIDToReplyTo;
+  showInputBar();
+  document.getElementById("m").focus();
+}
+
+//I don't think this function is used anymore but we'll leave it in just in case it's critical somewhere
 function cancelReplyToMessage() {
-  document.getElementById("m").placeholder = "Message";
+  document.getElementById("m").placeholder = "New thread...";
   document.getElementById("input").style.background = "#6B979B";
   document.getElementById("cancelReplyDiv").style.display = "none";
-  document.getElementById("inputDiv").classList.replace("col-8", "col-10");
-  //document.getElementById("cancelReplyDiv").classList("col-1")
   parentID = -1;
 }
 
@@ -83,13 +121,11 @@ function getRandomPostColor() {
 //check and generate cookie if it doesn't exist
 checkAndGenerateCookie();
 
-
-
 //get our coordinates. This function calls to the position scrambler function which then calls back to "connectToServer()"
 fetchCoordinates();
 
 //update the height of the messagesContainer
-fixMessagesContainerMargin();
+//fixMessagesContainerMargin();
 
 function connectToServer() {
 
@@ -135,7 +171,7 @@ function connectToServer() {
 
       //reset the textbox, and reset the reply and end the function
       $("#m").val("");
-      cancelReplyToMessage();
+      cancelInput();
       return false;
     });
 
