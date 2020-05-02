@@ -16,8 +16,8 @@ var clients = [];
 //(also there's an async related bug when calling the query I don't know how to fix otherwise)
 var currentNumberOfMessages = 0;
 
-//currently the range. Super big so everyone can see everyone's posts (for now)!
-var numberOfMiles = 9999;
+//currently the range. 200 miles is good enough.
+var numberOfMiles = 200;
 
 //test query
 var testQuery = "SELECT * FROM posts;";
@@ -49,6 +49,17 @@ function getNumberOfPostsInTable(){
   });
 }
 
+//adds a childID to a message with messageID in the table
+function addChildToPostInTable(messageID, childID){
+  query = `UPDATE posts SET child_ids = child_ids || ${childID} WHERE message_id = ${messageID};`;
+  client.query(query, (err, res) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+  });
+}
+
 getNumberOfPostsInTable();
 
 app.use(express.static(__dirname + "/public"));
@@ -56,7 +67,6 @@ app.use(express.static(__dirname + "/public"));
 io.on('connection', function (socket) {
 
   
-
   //adds a post to the table
   function addPostToTable(lat, long, color, emoji, userID, messageID, parentID, message){
     query = `INSERT INTO posts (lat, long, color, emoji, user_id, message_id, parent_id, message) 
@@ -72,14 +82,21 @@ io.on('connection', function (socket) {
         '${message}'
     );`;
 
+    //if the post is a reply/child, add it as a child_id to its parent
+    if(parentID != -1){
+      //this code keeps fucking things up and idk why
+      //query2 = `UPDATE posts SET child_ids = child_ids || ${messageID} WHERE message_id = ${parentID};`;
+      //query += query2;
+    }
+
     client.query(query, (err, res) => {
       if (err) {       
           console.error(err);
           return;
       }
-      for (let row of res.rows) {
-          console.log(row);
-      }
+      //for (let row of res.rows) {
+      //    console.log(row);
+      //}
     });
   }  
 
@@ -212,7 +229,7 @@ io.on('connection', function (socket) {
           if(!coordinatesAreLessThanXMilesApart(newClientObject.latitude, newClientObject.longitude, res.rows[i].lat, res.rows[i].long, numberOfMiles)){
             continue;
           }
-
+          //console.log(res.rows[i]);
           //CREATE A NEW MESSAGEOBJECT TO SEND OUT, BUT STRIP IT OF LOCATION/USERID
           var messageObject = {
             latitude: null,
@@ -224,7 +241,7 @@ io.on('connection', function (socket) {
             parentID:  res.rows[i].parent_id,
             message: res.rows[i].message
           };
-
+          console.log("new: " + JSON.stringify(messageObject));
           //send the message to the new client
           io.to(newClientObject.socketID).emit('client receive message', JSON.stringify(messageObject));
       }

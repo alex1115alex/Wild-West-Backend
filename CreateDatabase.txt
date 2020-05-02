@@ -17,6 +17,7 @@ CREATE TABLE posts(
    user_id TEXT,
     message_id INT,
      parent_id INT,
-      message TEXT
+      message TEXT,
+      child_ids integer[]
       );
 
