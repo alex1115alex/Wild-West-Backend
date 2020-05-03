@@ -1,5 +1,33 @@
-//setup emoji array
-var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
+// // setup file reader
+// var reader = new FileReader();
+
+// // file reading finished successfully
+// reader.addEventListener('load',function(e){
+//     //contents of ASCII file
+//     var ASCII_text = e.target.result;
+//     console.log(ASCII_text);
+// });
+
+// // file reading failed
+// reader.addEventListener('error',function() {
+//     console.log('---FILE READ ERROR---')
+// });
+
+// // file read progress 
+// reader.addEventListener('progress', function(e) {
+//     if(e.lengthComputable == true) {
+//         var percent_read = Math.floor((e.loaded/e.total)*100);
+//         console.log(percent_read + '% read');
+//     }
+// });
+
+// // read ASCII
+// reader.readAsText(//idk what to put here bruh);
+
+
+
+//setup emoji aray
+// var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
 document.getElementById('emoji').innerHTML = emojiArr[33]; //ayyyy lmao
 
 //pull the location data from the div
@@ -28,7 +56,7 @@ function sendLocalMessage() {
 
 
     //if the message is a reply AND its parent cannot be found
-    if (newMessageObject.parentID != -1 && !$("#" + newMessageObject.parentID).length) {
+    if (messageObj.parentID != -1 && !$("#" + messageObj.parentID).length) {
         //TODO: Uncomment the next line if we have issues seeing "ghost" messages
         //ie messages that should have a parent but don't
         //return false;
@@ -36,26 +64,26 @@ function sendLocalMessage() {
 
     //create div and li
     var liNode = $(
-        "<li id=" + newMessageObject.messageID + "><div class='messageImageDiv' style='background-color:#" +
-        newMessageObject.color +
-        ";height:40px;width:40px'><div class='messageEmojiDiv'>" + newMessageObject.emoji + "</div></div>" + newMessageObject.message +
-        "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID + "\", \"" + newMessageObject.color + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + newMessageObject.messageID + "\")'>View Replies</a></li>"
+        "<li id=" + messageObj.messageID + "><div class='messageImageDiv' style='background-color:#" +
+        messageObj.color +
+        ";height:40px;width:40px'><div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
+        "<br><a class='replyButton' onclick='replyToMessage(\"" + messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</a></li>"
     );
 
     //hide the viewRepliesButton if it isn't a thread
-    if (newMessageObject.parentID != -1) {
+    if (messageObj.parentID != -1) {
         liNode.find(".viewRepliesButton").hide();
     }
 
     liNode.css('background-color', getRandomPostColor);
 
     //append the message to #messages
-    if (newMessageObject.parentID == -1) {
+    if (messageObj.parentID == -1) {
         $("#messages").append(liNode);
     }
     else //(or if it's a reply append it to the parent message)
     {
-        $("#" + newMessageObject.parentID).append(liNode);
+        $("#" + messageObj.parentID).append(liNode);
     }
 
     //auto scroll to the bottom
