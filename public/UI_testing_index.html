@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <head>
-  <title>Wild West</title>
+  <title>Wild Test</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://kit.fontawesome.com/4ada0608ac.js" crossorigin="anonymous"></script>
 </head>
@@ -42,16 +42,14 @@
     <ul id="messages"></ul>
 </div>
 
-<li id="testMessage">
+<!-- <li id="testMessage">
   <div class='messageImageDiv' style='background-color:#e4cf94;height:40px;width:40px'>
-    <div class='messageEmojiDiv'>" + newMessageObject.emoji + "
-
-    </div>
+    <div id="emoji" class='messageEmojiDiv'> </div>
   </div>
     test message yo <br>
     replies don't work in these here parts <br>
     if you have a message, go in there and say it to the .html file's face like a man
-    <br><a class='replyButton'>Reply</a> <a class='viewRepliesButton' onclick=>View Replies</a></li>
+    <br><a class='replyButton'>Reply</a> <a class='viewRepliesButton' onclick=>View Replies</a></li> -->
 
 <!-- This is the input area -->
 <div class="row row-no-gutters" id="input">
@@ -64,23 +62,20 @@
         autocomplete="off"></input>
     </div>
     <div class="col-2 col-md-1">
-      <button id="sendButton" class="btn btn-block"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
+      <button id="sendButton" onclick="sendLocalMessage()" class="btn btn-block"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
     </div>
-  </div>
-
-  <!-- I'm not sure who put this here... I'm not sure what it does but I'll leave it as to not break anything...-->
-  <div id="locationOutput">
-
   </div>
 
   <script src="geoFinder.js"></script>
   <script src="cookies.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
   <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
-  <script src="main.js"></script>
+  <script src="UI_testing_main.js"></script>
+
+  <script src="UI_testing_funcs.js"></script>
 
 </body>
 
