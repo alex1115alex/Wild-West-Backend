@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+  <title>Wild West</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://kit.fontawesome.com/4ada0608ac.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- This is the overlay that shows up when loading the site. Makes things look nice and professional -->
+  <div id="overlay">
+      <div id="splash">
+          <img src="wild_west_logo_trans.png">
+          <h2 id="loadingInfo">Fetching location data and loading posts...</h2>
+        </div>
+    </div>
+    
+    <!-- I couldn't be bothered to figure out how to get the long/lat here from the geoFinder so I'm
+        just saving them to divs' innerHTML and then reading it back. If it's stupid and it works it ain't stupid. -->
+        <div id="longitudeDiv">0</div>
+        <div id="latitudeDiv">0</div>
+        
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-custom">
+            <a class="navbar-brand" href="#"><img id="navlogo" src="wild_west_logo_trans.png"> Wild West</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <button type="button" class="btn btn-info" onclick="createThread()"><i class="fas fa-plus"></i></button>
+        </li>
+    </ul>
+</nav>
+
+<!-- This is the box that contains all the messages -->
+<div id="messagesContainer">
+    <ul id="messages"></ul>
+</div>
+
+<!-- "<li id=" + newMessageObject.messageID + "><div class='messageImageDiv' style='background-color:#" +
+        newMessageObject.color +
+        ";height:40px;width:40px'><div class='messageEmojiDiv'>" + newMessageObject.emoji + "</div></div>" + newMessageObject.message +
+        "<br><a class='replyButton' onclick='replyToMessage(\"" + newMessageObject.messageID +
+         "\", \"" + newMessageObject.color + "\")'>Reply</a> <a class='viewRepliesButton' onclick='toggleChildren(\"" + 
+         newMessageObject.messageID + "\")'>View Replies</a></li>" -->
+
+<!-- This is the input area -->
+<div class="row row-no-gutters" id="input">
+    <div id="cancelReplyDiv" class="col-2 col-md-1">
+        <button id="cancelReplyButton" onclick="cancelInput()" class="btn btn-block"><i id="cancelReplyToMessageIcon"
+          class="fas fa-window-close"></i></button>
+        </div>
+        <div id="inputDiv" class="col-8 col-md-10">
+            <input onsubmit="return false;" type="textarea" maxlength="30000" class="form-control form-control-lg" id="m"
+        autocomplete="off"></input>
+    </div>
+    <div class="col-2 col-md-1">
+      <button id="sendButton" class="btn btn-block"><i id="sendIcon" class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- I'm not sure who put this here... I'm not sure what it does but I'll leave it as to not break anything...-->
+  <div id="locationOutput">
+
+  </div>
+
+  <script src="geoFinder.js"></script>
+  <script src="cookies.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+  <script src="main.js"></script>
+
+</body>
+
+</html>
