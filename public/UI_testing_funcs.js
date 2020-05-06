@@ -79,8 +79,8 @@ function sendLocalMessage() {
 
     var liNode = $(
         "<li id=" + messageObj.messageID +
-         "><div class='messageImageDiv' style='background-color:#" + messageObj.color +
-        ";height:40px;width:40px'><div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
+         "><div class='messageImageDiv' style='background-color:#" + messageObj.color + 
+         ";height:40px;width:40px'><div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
         "<br> <button class='btn'><i class='fa fa-arrow-up'></i></button> <button class='btn'><i class='fa fa-arrow-down'></i></button> <button class='btn' onclick='replyToMessage(\"" +
          messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button> <button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
          "<div class='dropdown'><button class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button><ul class='dropdown-menu'>" + 
