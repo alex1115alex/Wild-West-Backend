@@ -74,17 +74,34 @@ function sendLocalMessage() {
         //      "<a>New</a> <a>Hot</a> <a>Popular</a> <a>Controversial</a> </div></div> </li>"
         // );
         
-        
+
+    // This one looks good but dropdown does not expand on click
+        // var liNode = $(
+        //     "<li id=" + messageObj.messageID + ">"+
+        //     "<div class='messageImageDiv' style='background-color:#" + messageObj.color + ";height:40px;width:40px'>"+
+        //     "<div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
+        //     "<br> <button class='btn'><i class='fa fa-arrow-up'></i></button>" + 
+        //     "<button class='btn'><i class='fa fa-arrow-down'></i></button>" + 
+        //     "<button class='btn' onclick='replyToMessage(\"" + messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button>" + 
+        //     "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
+        //     "<div class='dropdown'><button class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
+        //     "<ul class='dropdown-menu'>" + 
+        //     "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
+        // );
+
     // =====================================================================================
 
     var liNode = $(
-        "<li id=" + messageObj.messageID +
-         "><div class='messageImageDiv' style='background-color:#" + messageObj.color + 
-         ";height:40px;width:40px'><div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
-        "<br> <button class='btn'><i class='fa fa-arrow-up'></i></button> <button class='btn'><i class='fa fa-arrow-down'></i></button> <button class='btn' onclick='replyToMessage(\"" +
-         messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button> <button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
-         "<div class='dropdown'><button class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button><ul class='dropdown-menu'>" + 
-         "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
+        "<li id=" + messageObj.messageID + ">"+
+        "<div class='messageImageDiv' style='background-color:#" + messageObj.color + ";height:40px;width:40px'>"+
+        "<div class='messageEmojiDiv'>" + messageObj.emoji + "</div></div>" + messageObj.message +
+        "<br> <button class='btn'><i class='fa fa-arrow-up'></i></button>" + 
+        "<button class='btn'><i class='fa fa-arrow-down'></i></button>" + 
+        "<button class='btn' onclick='replyToMessage(\"" + messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button>" + 
+        "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
+        "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
+        "<ul class='dropdown-menu' id='replyDropdown'>" + 
+        "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
     );
 
     // =====================================================================================
@@ -110,4 +127,9 @@ function sendLocalMessage() {
         //I'm not really sure what number to put in so I just put in a really big one
         $("#messagesContainer").scrollTop(888888888);
     }
+}
+
+// show dropdown menu when user clicks on it
+function showDropdown() {
+    document.getElementById("replyDropdown").classList.toggle("show");
 }

@@ -117,6 +117,25 @@
 
   <script src="UI_testing_funcs.js"></script>
 
+  <script>
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-menu");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                this.console.log("classlist contains show")
+              openDropdown.classList.remove('show');
+            } else {
+                this.console.log("classlist does not contain show")
+            }
+          }
+        }
+      }
+  </script>
+
 </body>
 
 </html>
