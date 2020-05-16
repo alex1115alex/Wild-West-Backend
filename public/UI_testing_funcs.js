@@ -49,7 +49,7 @@ function sendLocalMessage() {
       color: "",
       emoji: "",
       userID: cookie,
-      messageID: "",
+      messageID: "localMessage",
       parentID: parentID,
       message: $("#m").val()
     };
