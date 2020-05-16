@@ -115,6 +115,7 @@ function cancelInput(){
 
 function replyToMessage(messageIDToReplyTo, messageColor) {
   $("#" + messageIDToReplyTo).children("li").show();
+  console.log(messageIDToReplyTo);
   document.getElementById("input").style.background = "#" + messageColor;
   document.getElementById("m").style.background = "#" + messageColor;
   document.getElementById("m").placeholder = "Reply...";
@@ -220,4 +221,11 @@ function connectToServer() {
   //pull the location data from the div
   longitude = document.getElementById("longitudeDiv").innerHTML;
   latitude = document.getElementById("latitudeDiv").innerHTML;
+}
+
+// anything below this has been added specifically for UI testing
+// =====================================================================================
+
+function voteOnMessage(messageID) {
+  // voting stuff will go here
 }
