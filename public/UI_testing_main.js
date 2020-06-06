@@ -22,7 +22,7 @@ function checkAndGenerateCookie() {
 
     //also, since the user has no cookie, it's probably their first time on the site
     //therefore we need to tell them to accept the location permission
-    alert("Please allow location access when prompted in order to access Wild West");
+    // alert("Please allow location access when prompted in order to access Wild West");
   }
   cookie = getCookie("userID"); //set cookie variable
 }
