@@ -87,11 +87,12 @@ function sendLocalMessage() {
     //     "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
     //     "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
     //     "<ul class='dropdown-menu' id='replyDropdown'>" + 
-    //     "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
+    //     "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div>"
     // );
 
+    // something to fix: each option's 'hitbox' is the size of the word itself (long/short words are different)
+    //          at least, judging by the grey area that shows when you hover over it
     // =====================================================================================
-
     var liNode = $(
         "<li id=" + messageObj.messageID + ">"+
         "<div class='messageImageDiv' style='background-color:#" + messageObj.color + ";height:40px;width:40px'>"+
@@ -101,8 +102,8 @@ function sendLocalMessage() {
         "<button class='btn' onclick='replyToMessage(\"" + messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button>" + 
         "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
         "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
-        "<ul class='dropdown-menu' id='replyDropdown'>" + 
-        "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
+        "<div class='dropdown-menu' id='replyDropdown'>" + 
+        "<a>New<br></a> <a>Hot<br></a> <a>Popular<br></a> <a>Controversial<br></a> </div> </div> "
     );
 
     // =====================================================================================
