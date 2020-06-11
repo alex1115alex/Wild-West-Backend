@@ -100,7 +100,7 @@ function sendLocalMessage() {
         "<button class='btn'><i class='fa fa-arrow-down'></i></button>" + 
         "<button class='btn' onclick='replyToMessage(\"" + messageObj.messageID + "\", \"" + messageObj.color + "\")'>Reply</button>" + 
         "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
-        "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
+        "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
         "<ul class='dropdown-menu' id='replyDropdown'>" + 
         "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div> </li>"
     );
