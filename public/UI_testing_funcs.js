@@ -139,7 +139,7 @@ function showDropdown() {
 // send message when user hits "Enter"
 function enterKeyCheck(keyCode) {
     if (keyCode == 13) {
-        // option A
+        // option A (might not work on actual webpage)
         sendLocalMessage();
         // option B
         // document.getElementById("sendButton").click();
