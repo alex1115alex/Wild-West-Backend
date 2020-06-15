@@ -135,3 +135,21 @@ function sendLocalMessage() {
 function showDropdown() {
     document.getElementById("replyDropdown").classList.toggle("show");
 }
+
+// send message when user hits "Enter"
+function enterKeyCheck(keyCode) {
+    if (keyCode == 13) {
+        document.getElementById("sendButton").click();
+    }
+}
+//     var input = document.getElementById("m");
+
+//     input.addEventListener("keypress", function(event){
+//         if (event.keyCode == 13) {
+//             // might want to call sendMessage function instead
+//             // document.getElementById("sendButton").click();
+//             console.log("Enter button pressed");
+//         }
+//         console.log("Some button pressed");
+//     });
+// }
