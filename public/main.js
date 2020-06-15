@@ -178,6 +178,14 @@ function getRandomPostColor() {
     .map(function (s) { return "00".slice(s.length) + s }).join('');
   return newColor;
 }
+
+// send message when user hits "Enter"
+function enterKeyCheck(keyCode) {
+  if (keyCode == 13) {
+      document.getElementById("sendButton").click();
+  }
+}
+
 /*
 function FitToContent(id, maxHeight)
 {
