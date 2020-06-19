@@ -24,10 +24,11 @@
 // // read ASCII
 // reader.readAsText(//idk what to put here bruh);
 
+var fs = require('fs');
 
 
 //setup emoji aray
-// var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
+var emojiArr = fs.readFileSync('HashEmoji.txt').toString().split("\n");
 document.getElementById('emoji').innerHTML = emojiArr[33]; //ayyyy lmao
 
 //pull the location data from the div
@@ -90,6 +91,8 @@ function sendLocalMessage() {
     //     "<li><a>New</a></li> <li><a>Hot</a></li> <li><a>Popular</a></li> <li><a>Controversial</a></li> </ul></div>"
     // );
 
+    // more recently tried the above version without <li> </li> in the second-to-last line
+
     // something to fix: each option's 'hitbox' is the size of the word itself (long/short words are different)
     //          at least, judging by the grey area that shows when you hover over it
     // =====================================================================================
@@ -103,7 +106,7 @@ function sendLocalMessage() {
         "<button class='btn' onclick='toggleChildren(\"" + messageObj.messageID + "\")'>View Replies</button>" + 
         "<div class='dropdown'><button onclick = showDropdown() class='btn dropbtn dropdown-toggle' type='button' data-toggle='dropdown'>Sort replies by<span class='caret'></span></button>" + 
         "<div class='dropdown-menu' id='replyDropdown'>" + 
-        "<a>New<br></a> <a>Hot<br></a> <a>Popular<br></a> <a>Controversial<br></a> </div> </div> "
+        "<a>New<br></a> <a>Hot<br></a> <a>Popular<br></a> <a>Controversial<br></a> </div> </div>"
     );
 
     // =====================================================================================
